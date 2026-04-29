@@ -494,6 +494,71 @@ async function removeStudent(id) {
   try { await sheetAPI('deleteStudent', { id }); } catch {}
 }
 
+// ===== SUMMARY =====
+function renderSummary() {
+  // คำนวณยอดรวมและจำนวนครั้งของนักเรียนแต่ละคน
+  const summary = students.map(s => {
+    const studentSales = sales.filter(x => x.studentId == s.id);
+    const total = studentSales.reduce((a, b) => a + Number(b.total), 0);
+    const times = studentSales.length;
+    const lastDate = studentSales.length > 0 ? studentSales[studentSales.length - 1].date : '-';
+    return { ...s, total, times, lastDate };
+  });
+  // เรียงจากมากไปน้อย
+  summary.sort((a, b) => b.total - a.total);
+
+  const grandTotal = summary.reduce((a, b) => a + b.total, 0);
+  const buyersCount = summary.filter(s => s.times > 0).length;
+
+  return `
+  <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
+    <div class="stat-box"><div class="stat-val">${buyersCount}/${students.length}</div><div class="stat-lbl">นักเรียนที่เคยซื้อ</div></div>
+    <div class="stat-box"><div class="stat-val">${fmt(grandTotal)}</div><div class="stat-lbl">ยอดรวมทั้งหมด (฿)</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+      <span>สรุปยอดซื้อสะสมของนักเรียน</span>
+      <button class="btn btn-outline" onclick="exportSummaryCSV()" style="font-size:11px;padding:4px 10px">📥 CSV</button>
+    </div>
+    ${summary.length === 0 ? '<div class="empty"><div class="empty-icon">📊</div>ยังไม่มีข้อมูลนักเรียน</div>' :
+    summary.map((s, i) => `
+      <div class="history-row">
+        <div class="history-top">
+          <span class="history-name">
+            ${s.total > 0 ? `<span class="badge badge-amber">#${i+1}</span> ` : ''}
+            👦 ${s.name} <span class="badge badge-gray">${s.class}</span>
+          </span>
+          <span class="history-amount">${fmt(s.total)} ฿</span>
+        </div>
+        <div class="history-sub">
+          ${s.times > 0 ? `ซื้อ ${s.times} ครั้ง · ครั้งล่าสุด ${s.lastDate}` : 'ยังไม่เคยซื้อ'}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+function exportSummaryCSV() {
+  const summary = students.map(s => {
+    const studentSales = sales.filter(x => x.studentId == s.id);
+    const total = studentSales.reduce((a, b) => a + Number(b.total), 0);
+    const times = studentSales.length;
+    const lastDate = studentSales.length > 0 ? studentSales[studentSales.length - 1].date : '-';
+    return { ...s, total, times, lastDate };
+  });
+  summary.sort((a, b) => b.total - a.total);
+
+  let rows = ['\uFEFFอันดับ,ชื่อนักเรียน,ชั้น,จำนวนครั้งที่ซื้อ,ยอดรวม (บาท),ครั้งล่าสุด'];
+  summary.forEach((s, i) => {
+    rows.push(`${i+1},"${s.name}","${s.class}",${s.times},${s.total},"${s.lastDate}"`);
+  });
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `สรุปยอดรายคน_${todayStr().replace(/\//g,'-')}.csv`;
+  a.click();
+  showToast('📥 ส่งออกแล้ว');
+}
+
 // ===== REPORT =====
 function renderReport() {
   const todayS = sales.filter(s => s.date === todayStr());
@@ -530,6 +595,7 @@ function renderReport() {
   </div>
   <div class="tab-bar">
     <button class="tab-pill ${reportTab==='history'?'active':''}" onclick="reportTab='history';render()">ประวัติการซื้อ</button>
+    <button class="tab-pill ${reportTab==='summary'?'active':''}" onclick="reportTab='summary';render()">สรุปยอดรายคน</button>
     <button class="tab-pill ${reportTab==='top'?'active':''}" onclick="reportTab='top';render()">สินค้าขายดี</button>
   </div>
   ${reportTab === 'history' ? `
@@ -543,7 +609,7 @@ function renderReport() {
       <button class="btn btn-outline" onclick="syncAll()" style="white-space:nowrap">🔄 ซิงค์</button>
     </div>
     ${historyHtml}
-  </div>` : `
+  </div>` : reportTab === 'summary' ? renderSummary() : `
   <div class="card">
     <div class="card-title">สินค้าที่ขายมากที่สุด</div>
     ${topProducts.length === 0 ? '<div class="empty">ยังไม่มีข้อมูล</div>' :
