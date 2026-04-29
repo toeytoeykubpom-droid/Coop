@@ -200,7 +200,18 @@ function thaiDate(d) { return new Date(d).toLocaleDateString('th-TH', {day:'2-di
 // แปลง sale record เป็น Date object (ใช้ timestamp ก่อน, fallback เป็น date)
 function getSaleDate(s) {
   if (s.timestamp) {
-    const d = new Date(s.timestamp);
+    let ts = s.timestamp;
+    // ถ้า timestamp เป็นรูปแบบ ISO และปีเป็น พ.ศ. (เช่น 2569) ให้แปลงเป็น ค.ศ.
+    if (typeof ts === 'string') {
+      const yearMatch = ts.match(/^(\d{4})-/);
+      if (yearMatch) {
+        const year = parseInt(yearMatch[1]);
+        if (year > 2400) {
+          ts = ts.replace(/^\d{4}/, year - 543);
+        }
+      }
+    }
+    const d = new Date(ts);
     if (!isNaN(d.getTime())) return d;
   }
   // fallback: parse Thai date "DD/MM/YYYY" (พ.ศ.)
@@ -692,7 +703,7 @@ function renderReport() {
             <span class="history-name">👦 ${s.studentName} <span class="badge badge-gray">${s.studentClass}</span></span>
             <span class="history-amount">${fmt(s.total)} ฿</span>
           </div>
-          <div class="history-sub">${s.date} · ${itemStr}</div>
+          <div class="history-sub">${getSaleDate(s).toLocaleDateString('th-TH', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'})} · ${itemStr}</div>
         </div>`;}).join('');
 
   return `
