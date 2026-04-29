@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>สหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a7a50; --green-light: #e8f5ee; --green-mid: #2ea66b;
+    --amber: #d97706; --amber-light: #fef3c7;
+    --red: #dc2626; --red-light: #fee2e2;
+    --bg: #f4f6f5; --white: #ffffff;
+    --text: #1a2e22; --text-muted: #6b7c72; --border: #d1ddd6;
+    --radius: 12px; --radius-sm: 8px; --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; min-height: 100vh; }
+  .header { background: var(--green); color: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .header-title { font-size: 17px; font-weight: 700; }
+  .header-sub { font-size: 12px; opacity: 0.8; margin-top: 1px; }
+  .header-right { text-align: right; }
+  .header-date { font-size: 13px; opacity: 0.85; }
+  .sync-status { font-size: 11px; margin-top: 2px; opacity: 0.75; }
+  .nav { display: flex; background: var(--white); border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .nav-btn { flex: 1; min-width: 70px; padding: 12px 8px; border: none; background: none; font-family: 'Sarabun', sans-serif; font-size: 14px; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; white-space: nowrap; }
+  .nav-btn.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
+  .nav-btn:hover { background: var(--green-light); }
+  .content { padding: 14px; max-width: 800px; margin: 0 auto; }
+  .card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow); }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .student-card { padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); cursor: pointer; transition: .15s; }
+  .student-card:hover { border-color: var(--green-mid); background: var(--green-light); }
+  .student-card.active { border-color: var(--green); background: var(--green-light); }
+  .student-name { font-size: 13px; font-weight: 500; }
+  .student-class { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+  .product-card { padding: 12px 8px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); cursor: pointer; text-align: center; transition: .15s; }
+  .product-card:hover { border-color: var(--green-mid); background: var(--green-light); transform: scale(1.02); }
+  .product-card:active { transform: scale(0.97); }
+  .product-icon { font-size: 26px; margin-bottom: 4px; }
+  .product-name { font-size: 13px; font-weight: 500; }
+  .product-price { font-size: 14px; color: var(--green); font-weight: 700; margin-top: 3px; }
+  .cart-item { display: flex; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-name { flex: 1; font-size: 14px; }
+  .qty-ctrl { display: flex; align-items: center; gap: 6px; }
+  .qty-btn { width: 28px; height: 28px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+  .qty-btn:hover { background: var(--green-light); border-color: var(--green); }
+  .qty-num { font-size: 15px; font-weight: 600; min-width: 24px; text-align: center; }
+  .cart-price { font-size: 14px; font-weight: 600; color: var(--green); min-width: 60px; text-align: right; }
+  .total-box { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 0; border-top: 2px solid var(--border); margin-top: 8px; }
+  .total-label { font-size: 16px; color: var(--text-muted); }
+  .total-amount { font-size: 28px; font-weight: 700; color: var(--green); }
+  .btn { padding: 12px 20px; border: none; border-radius: var(--radius-sm); font-family: 'Sarabun', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: .15s; }
+  .btn-green { background: var(--green); color: white; width: 100%; margin-top: 12px; font-size: 17px; padding: 14px; border-radius: var(--radius); }
+  .btn-green:hover:not(:disabled) { background: #155e3e; }
+  .btn-green:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); font-family: 'Sarabun', sans-serif; font-size: 13px; cursor: pointer; padding: 7px 14px; border-radius: var(--radius-sm); }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+  .btn-danger { background: transparent; border: none; color: var(--red); font-family: 'Sarabun', sans-serif; font-size: 12px; cursor: pointer; padding: 2px 6px; }
+  input, select { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'Sarabun', sans-serif; font-size: 14px; color: var(--text); background: var(--white); outline: none; transition: .15s; }
+  input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,122,80,0.12); }
+  .input-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-end; }
+  .input-group { flex: 1; }
+  .input-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat-box { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; text-align: center; box-shadow: var(--shadow); }
+  .stat-val { font-size: 22px; font-weight: 700; color: var(--green); }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+  .badge-green { background: var(--green-light); color: var(--green); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+  .badge-gray { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+  .history-row { padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .history-row:last-child { border-bottom: none; }
+  .history-top { display: flex; justify-content: space-between; align-items: center; }
+  .history-name { font-size: 14px; font-weight: 600; }
+  .history-amount { font-size: 15px; font-weight: 700; color: var(--green); }
+  .history-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 14px; }
+  .tab-pill { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--border); background: var(--white); font-family: 'Sarabun', sans-serif; font-size: 13px; cursor: pointer; color: var(--text-muted); }
+  .tab-pill.active { background: var(--green); border-color: var(--green); color: white; font-weight: 600; }
+  .filter-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .filter-row select { flex: 1; }
+  .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
+  .empty-icon { font-size: 40px; margin-bottom: 10px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a2e22; color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .3s; opacity: 0; z-index: 9999; white-space: nowrap; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 15px; color: var(--green); font-weight: 600; display: none; }
+  .loading-overlay.show { display: flex; }
+  /* Setup screen */
+  .setup-screen { max-width: 540px; margin: 40px auto; padding: 14px; }
+  .setup-card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow); }
+  .setup-title { font-size: 20px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
+  .setup-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+  .setup-step { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+  .step-num { background: var(--green); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .step-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+  .step-text b { color: var(--green); }
+  @media (max-width: 500px) {
+    .stat-grid { gap: 6px; }
+    .stat-val { font-size: 18px; }
+    .student-grid { grid-template-columns: repeat(2, 1fr); }
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loading">⏳ กำลังโหลด...</div>
+<div class="toast" id="toast"></div>
+
+<!-- Setup screen (shown when no URL configured) -->
+<div id="setup-screen" style="display:none">
+  <div class="setup-screen">
+    <div class="setup-card">
+      <div class="setup-title">🔧 ตั้งค่าเชื่อมต่อ Google Sheets</div>
+      <div class="setup-sub">วางลิงก์ Web App จาก Google Apps Script ด้านล่าง</div>
+      <div class="input-group" style="margin-bottom:12px">
+        <div class="input-label">Web App URL</div>
+        <input id="setup-url" placeholder="https://script.google.com/macros/s/..." style="font-size:13px">
+      </div>
+      <button class="btn btn-green" onclick="saveURL()">✅ บันทึกและเริ่มใช้งาน</button>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+        <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-muted)">วิธีรับลิงก์ Web App:</div>
+        <div class="setup-step"><div class="step-num">1</div><div class="step-text">เปิด <b>Google Sheets</b> ใหม่ → ตั้งชื่อ <b>"สหกรณ์โรงเรียน"</b></div></div>
+        <div class="setup-step"><div class="step-num">2</div><div class="step-text">คลิกเมนู <b>Extensions → Apps Script</b></div></div>
+        <div class="setup-step"><div class="step-num">3</div><div class="step-text">วางโค้ดจากไฟล์คู่มือ <b>Code.gs</b> แล้วกด <b>Save</b></div></div>
+        <div class="setup-step"><div class="step-num">4</div><div class="step-text">กด <b>Deploy → New deployment</b> → เลือก <b>Web app</b> → ตั้ง Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → <b>Deploy</b></div></div>
+        <div class="setup-step"><div class="step-num">5</div><div class="step-text">คัดลอก <b>Web app URL</b> มาวางช่องบน</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main app -->
+<div id="main-app" style="display:none">
+  <div class="header">
+    <div>
+      <div class="header-title">🏫 สหกรณ์โรงเรียน</div>
+      <div class="header-sub">บ้านนิคมสายโท 12 เหนือ</div>
+    </div>
+    <div class="header-right">
+      <div class="header-date" id="header-date"></div>
+      <div class="sync-status" id="sync-status">🟢 เชื่อมต่อแล้ว</div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('pos')">🛒 ขายสินค้า</button>
+    <button class="nav-btn" onclick="switchTab('products')">📦 สินค้า</button>
+    <button class="nav-btn" onclick="switchTab('students')">👦 นักเรียน</button>
+    <button class="nav-btn" onclick="switchTab('report')">📊 รายงาน</button>
+    <button class="nav-btn" onclick="switchTab('settings')">⚙️ ตั้งค่า</button>
+  </div>
+  <div class="content" id="content"></div>
+</div>
+
+<script>
+// ===== CONFIG =====
+const STORAGE_KEY = 'coop_sheet_url';
+let SHEET_URL = localStorage.getItem(STORAGE_KEY) || '';
+
+// ===== LOCAL CACHE =====
+function loadCache(key, def) {
+  try { const v = localStorage.getItem('cache_'+key); return v ? JSON.parse(v) : def; } catch { return def; }
+}
+function saveCache(key, val) {
+  try { localStorage.setItem('cache_'+key, JSON.stringify(val)); } catch {}
+}
+
+let students = loadCache('students', []);
+let products = loadCache('products', [
+  {id:1, name:'ข้าวกล่อง', price:15, icon:'🍱'},
+  {id:2, name:'น้ำดื่ม', price:5, icon:'💧'},
+  {id:3, name:'ขนมปัง', price:8, icon:'🍞'},
+  {id:4, name:'นม UHT', price:12, icon:'🥛'},
+  {id:5, name:'ยางลบ', price:5, icon:'📐'},
+  {id:6, name:'ดินสอ', price:3, icon:'✏️'},
+  {id:7, name:'ไอศกรีม', price:10, icon:'🍦'},
+  {id:8, name:'มาม่าถ้วย', price:12, icon:'🍜'},
+]);
+let sales = loadCache('sales', []);
+
+// ===== STATE =====
+let tab = 'pos';
+let pos = { studentId: null, cart: [] };
+let newStudent = { name: '', class: '' };
+let newProduct = { name: '', price: '', icon: '🛍️' };
+let reportStudentFilter = '';
+let reportTab = 'history';
+
+// ===== HELPERS =====
+function fmt(n) { return Number(n).toLocaleString('th-TH'); }
+function todayStr() { return new Date().toLocaleDateString('th-TH', {day:'2-digit', month:'2-digit', year:'numeric'}); }
+function thaiDate(d) { return new Date(d).toLocaleDateString('th-TH', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
+function showToast(msg, duration=2200) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._to); t._to = setTimeout(() => t.classList.remove('show'), duration);
+}
+function showLoading(msg='⏳ กำลังโหลด...') { const l = document.getElementById('loading'); l.textContent = msg; l.classList.add('show'); }
+function hideLoading() { document.getElementById('loading').classList.remove('show'); }
+function updateDate() {
+  const el = document.getElementById('header-date');
+  if (el) el.innerHTML = new Date().toLocaleDateString('th-TH', {weekday:'short', day:'numeric', month:'short'}) + '<br>' + new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
+}
+
+// ===== GOOGLE SHEETS API =====
+async function sheetAPI(action, data = {}) {
+  if (!SHEET_URL) throw new Error('ไม่มี URL');
+  const params = new URLSearchParams({ action, ...Object.fromEntries(Object.entries(data).map(([k,v]) => [k, typeof v === 'object' ? JSON.stringify(v) : v])) });
+  const res = await fetch(SHEET_URL + '?' + params, { method: 'GET' });
+  const json = await res.json();
+  if (json.error) throw new Error(json.error);
+  return json;
+}
+
+async function syncAll() {
+  if (!SHEET_URL) return;
+  try {
+    document.getElementById('sync-status').textContent = '🔄 กำลังซิงค์...';
+    const [stRes, prRes, saRes] = await Promise.all([
+      sheetAPI('getStudents'),
+      sheetAPI('getProducts'),
+      sheetAPI('getSales')
+    ]);
+    if (stRes.students) { students = stRes.students; saveCache('students', students); }
+    if (prRes.products) { products = prRes.products; saveCache('products', products); }
+    if (saRes.sales) { sales = saRes.sales; saveCache('sales', sales); }
+    document.getElementById('sync-status').textContent = '🟢 ซิงค์แล้ว ' + new Date().toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'});
+    render();
+  } catch(e) {
+    document.getElementById('sync-status').textContent = '🔴 ออฟไลน์';
+  }
+}
+
+// ===== SETUP =====
+function saveURL() {
+  const url = document.getElementById('setup-url').value.trim();
+  if (!url.startsWith('https://script.google.com')) { showToast('⚠️ URL ไม่ถูกต้อง'); return; }
+  SHEET_URL = url;
+  localStorage.setItem(STORAGE_KEY, url);
+  initApp();
+}
+
+function initApp() {
+  if (!SHEET_URL) {
+    document.getElementById('setup-screen').style.display = 'block';
+    document.getElementById('main-app').style.display = 'none';
+    return;
+  }
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'block';
+  updateDate();
+  setInterval(updateDate, 30000);
+  setInterval(syncAll, 60000); // auto sync every minute
+  render();
+  syncAll();
+}
+
+// ===== TAB SWITCH =====
+function switchTab(t) {
+  tab = t;
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['pos','products','students','report','settings'][i] === t);
+  });
+  render();
+}
+
+function render() {
+  const c = document.getElementById('content');
+  if (!c) return;
+  if (tab === 'pos') c.innerHTML = renderPOS();
+  else if (tab === 'products') c.innerHTML = renderProducts();
+  else if (tab === 'students') c.innerHTML = renderStudents();
+  else if (tab === 'report') c.innerHTML = renderReport();
+  else c.innerHTML = renderSettings();
+}
+
+// ===== POS =====
+function renderPOS() {
+  const sel = students.find(s => s.id == pos.studentId);
+  const total = pos.cart.reduce((a, i) => a + i.price * i.qty, 0);
+  const cartHtml = pos.cart.length === 0
+    ? '<div class="empty"><div class="empty-icon">🛒</div>กดเลือกสินค้าด้านบน</div>'
+    : pos.cart.map(item => `
+      <div class="cart-item">
+        <span class="cart-item-name">${item.icon} ${item.name}</span>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+        <span class="cart-price">${fmt(item.price * item.qty)} ฿</span>
+      </div>`).join('');
+
+  return `
+  <div class="card">
+    <div class="card-title">เลือกนักเรียน</div>
+    ${students.length === 0 ? '<div class="empty" style="padding:16px">ยังไม่มีข้อมูลนักเรียน — ไปที่แท็บ "นักเรียน" เพื่อเพิ่ม</div>' :
+    `<div class="student-grid">
+      ${students.map(s => `
+        <div class="student-card ${pos.studentId == s.id ? 'active' : ''}" onclick="selectStudent('${s.id}')">
+          <div class="student-name">${s.name}</div>
+          <div class="student-class">${s.class}</div>
+        </div>`).join('')}
+    </div>`}
+  </div>
+  <div class="card">
+    <div class="card-title">เลือกสินค้า</div>
+    <div class="product-grid">
+      ${products.map(p => `
+        <div class="product-card" onclick="addToCart('${p.id}')">
+          <div class="product-icon">${p.icon}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-price">${fmt(p.price)} ฿</div>
+        </div>`).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">ตะกร้าสินค้า ${sel ? `— <span class="badge badge-green">${sel.name}</span>` : '<span class="badge badge-gray">กรุณาเลือกนักเรียนก่อน</span>'}</div>
+    <div>${cartHtml}</div>
+    <div class="total-box">
+      <span class="total-label">รวมทั้งหมด</span>
+      <span class="total-amount">${fmt(total)} ฿</span>
+    </div>
+    <button class="btn btn-green" ${!pos.studentId || total === 0 ? 'disabled' : ''} onclick="checkout()">✅ บันทึกการขาย</button>
+  </div>`;
+}
+
+function selectStudent(id) { pos.studentId = id; render(); }
+
+function addToCart(pid) {
+  if (!pos.studentId) { showToast('⚠️ กรุณาเลือกนักเรียนก่อน'); return; }
+  const p = products.find(x => x.id == pid);
+  const ex = pos.cart.find(x => x.id == pid);
+  if (ex) ex.qty++; else pos.cart.push({ ...p, qty: 1 });
+  render();
+}
+
+function changeQty(pid, d) {
+  const i = pos.cart.findIndex(x => x.id == pid);
+  if (i < 0) return;
+  pos.cart[i].qty += d;
+  if (pos.cart[i].qty <= 0) pos.cart.splice(i, 1);
+  render();
+}
+
+async function checkout() {
+  const total = pos.cart.reduce((a, i) => a + i.price * i.qty, 0);
+  const s = students.find(x => x.id == pos.studentId);
+  const record = {
+    timestamp: new Date().toISOString(),
+    date: todayStr(),
+    studentId: s.id,
+    studentName: s.name,
+    studentClass: s.class,
+    items: pos.cart.map(i => ({ name: i.name, price: i.price, qty: i.qty, icon: i.icon })),
+    total
+  };
+  // Add to local cache immediately
+  const localRecord = { id: Date.now(), ...record };
+  sales.push(localRecord);
+  saveCache('sales', sales);
+  showToast(`✅ บันทึกแล้ว — ${s.name} ${fmt(total)} ฿`);
+  pos = { studentId: null, cart: [] };
+  render();
+  // Send to Google Sheets
+  try {
+    await sheetAPI('addSale', { data: record });
+    document.getElementById('sync-status').textContent = '🟢 ซิงค์แล้ว';
+  } catch(e) {
+    document.getElementById('sync-status').textContent = '🔴 รอซิงค์ (ออฟไลน์)';
+  }
+}
+
+// ===== PRODUCTS =====
+function renderProducts() {
+  return `
+  <div class="card">
+    <div class="card-title">เพิ่มสินค้าใหม่</div>
+    <div class="input-row">
+      <div class="input-group" style="max-width:70px">
+        <div class="input-label">ไอคอน</div>
+        <input id="picon" value="${newProduct.icon}" oninput="newProduct.icon=this.value">
+      </div>
+      <div class="input-group" style="flex:2">
+        <div class="input-label">ชื่อสินค้า</div>
+        <input id="pname" placeholder="ชื่อสินค้า" value="${newProduct.name}" oninput="newProduct.name=this.value">
+      </div>
+      <div class="input-group" style="max-width:100px">
+        <div class="input-label">ราคา (฿)</div>
+        <input id="pprice" type="number" min="0" value="${newProduct.price}" oninput="newProduct.price=this.value">
+      </div>
+    </div>
+    <button class="btn btn-outline" onclick="addProduct()">+ เพิ่มสินค้า</button>
+  </div>
+  <div class="card">
+    <div class="card-title">รายการสินค้า (${products.length} รายการ)</div>
+    ${products.map(p => `
+      <div class="history-row">
+        <div class="history-top">
+          <span class="history-name">${p.icon} ${p.name}</span>
+          <span style="display:flex;align-items:center;gap:10px">
+            <span class="history-amount">${fmt(p.price)} ฿</span>
+            <button class="btn-danger" onclick="removeProduct('${p.id}')">ลบ</button>
+          </span>
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+async function addProduct() {
+  if (!newProduct.name || !newProduct.price) { showToast('⚠️ กรอกชื่อและราคาด้วย'); return; }
+  const p = { id: Date.now().toString(), name: newProduct.name.trim(), price: parseFloat(newProduct.price), icon: newProduct.icon || '🛍️' };
+  products.push(p);
+  saveCache('products', products);
+  newProduct = { name: '', price: '', icon: '🛍️' };
+  showToast('✅ เพิ่มสินค้าแล้ว');
+  render();
+  try { await sheetAPI('addProduct', { data: p }); } catch {}
+}
+
+async function removeProduct(id) {
+  if (!confirm('ลบสินค้านี้?')) return;
+  products = products.filter(p => p.id != id);
+  saveCache('products', products);
+  showToast('🗑️ ลบสินค้าแล้ว');
+  render();
+  try { await sheetAPI('deleteProduct', { id }); } catch {}
+}
+
+// ===== STUDENTS =====
+function renderStudents() {
+  return `
+  <div class="card">
+    <div class="card-title">เพิ่มนักเรียนใหม่</div>
+    <div class="input-row">
+      <div class="input-group" style="flex:2">
+        <div class="input-label">ชื่อ-นามสกุล</div>
+        <input placeholder="เช่น ด.ช.สมชาย ใจดี" value="${newStudent.name}" oninput="newStudent.name=this.value">
+      </div>
+      <div class="input-group" style="max-width:110px">
+        <div class="input-label">ชั้น</div>
+        <select onchange="newStudent.class=this.value">
+          <option value="">เลือก</option>
+          ${['อ.1','อ.2','อ.3','ป.1','ป.2','ป.3','ป.4','ป.5','ป.6'].map(c =>
+            `<option ${newStudent.class===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-outline" onclick="addStudent()">+ เพิ่มนักเรียน</button>
+  </div>
+  <div class="card">
+    <div class="card-title">รายชื่อนักเรียน (${students.length} คน)</div>
+    ${students.length === 0 ? '<div class="empty"><div class="empty-icon">👦</div>ยังไม่มีนักเรียน</div>' :
+    students.map(s => {
+      const sSales = sales.filter(x => x.studentId == s.id);
+      const total = sSales.reduce((a, b) => a + Number(b.total), 0);
+      return `
+      <div class="history-row">
+        <div class="history-top">
+          <span class="history-name">👦 ${s.name}</span>
+          <span style="display:flex;align-items:center;gap:8px">
+            <span class="badge badge-gray">${s.class}</span>
+            <button class="btn-danger" onclick="removeStudent('${s.id}')">ลบ</button>
+          </span>
+        </div>
+        <div class="history-sub">ซื้อ ${sSales.length} ครั้ง · รวม ${fmt(total)} ฿</div>
+      </div>`;}).join('')}
+  </div>`;
+}
+
+async function addStudent() {
+  if (!newStudent.name || !newStudent.class) { showToast('⚠️ กรอกชื่อและชั้นด้วย'); return; }
+  const s = { id: Date.now().toString(), name: newStudent.name.trim(), class: newStudent.class };
+  students.push(s);
+  saveCache('students', students);
+  newStudent = { name: '', class: '' };
+  showToast('✅ เพิ่มนักเรียนแล้ว');
+  render();
+  try { await sheetAPI('addStudent', { data: s }); } catch {}
+}
+
+async function removeStudent(id) {
+  if (!confirm('ลบนักเรียนนี้?')) return;
+  students = students.filter(s => s.id != id);
+  saveCache('students', students);
+  showToast('🗑️ ลบนักเรียนแล้ว');
+  render();
+  try { await sheetAPI('deleteStudent', { id }); } catch {}
+}
+
+// ===== REPORT =====
+function renderReport() {
+  const todayS = sales.filter(s => s.date === todayStr());
+  const todayTotal = todayS.reduce((a, b) => a + Number(b.total), 0);
+  const allTotal = sales.reduce((a, b) => a + Number(b.total), 0);
+  const productCount = {};
+  sales.forEach(s => {
+    const items = typeof s.items === 'string' ? JSON.parse(s.items) : s.items;
+    if (Array.isArray(items)) items.forEach(i => { productCount[i.name] = (productCount[i.name] || 0) + Number(i.qty); });
+  });
+  const topProducts = Object.entries(productCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  let filtered = [...sales].reverse();
+  if (reportStudentFilter) filtered = filtered.filter(s => s.studentId == reportStudentFilter);
+
+  const historyHtml = filtered.length === 0
+    ? '<div class="empty"><div class="empty-icon">📋</div>ยังไม่มีประวัติการขาย</div>'
+    : filtered.map(s => {
+        const items = typeof s.items === 'string' ? JSON.parse(s.items) : (s.items || []);
+        const itemStr = Array.isArray(items) ? items.map(i => (i.icon||'')+(i.name)+(i.qty>1?` x${i.qty}`:'')).join(', ') : '';
+        return `
+        <div class="history-row">
+          <div class="history-top">
+            <span class="history-name">👦 ${s.studentName} <span class="badge badge-gray">${s.studentClass}</span></span>
+            <span class="history-amount">${fmt(s.total)} ฿</span>
+          </div>
+          <div class="history-sub">${s.date} · ${itemStr}</div>
+        </div>`;}).join('');
+
+  return `
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-val">${fmt(todayTotal)}</div><div class="stat-lbl">ยอดวันนี้ (฿)</div></div>
+    <div class="stat-box"><div class="stat-val">${todayS.length}</div><div class="stat-lbl">รายการวันนี้</div></div>
+    <div class="stat-box"><div class="stat-val">${fmt(allTotal)}</div><div class="stat-lbl">ยอดสะสม (฿)</div></div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-pill ${reportTab==='history'?'active':''}" onclick="reportTab='history';render()">ประวัติการซื้อ</button>
+    <button class="tab-pill ${reportTab==='top'?'active':''}" onclick="reportTab='top';render()">สินค้าขายดี</button>
+  </div>
+  ${reportTab === 'history' ? `
+  <div class="card">
+    <div class="filter-row">
+      <select onchange="reportStudentFilter=this.value;render()">
+        <option value="">นักเรียนทั้งหมด</option>
+        ${students.map(s => `<option value="${s.id}" ${reportStudentFilter==s.id?'selected':''}>${s.name}</option>`).join('')}
+      </select>
+      <button class="btn btn-outline" onclick="exportCSV()" style="white-space:nowrap">📥 CSV</button>
+      <button class="btn btn-outline" onclick="syncAll()" style="white-space:nowrap">🔄 ซิงค์</button>
+    </div>
+    ${historyHtml}
+  </div>` : `
+  <div class="card">
+    <div class="card-title">สินค้าที่ขายมากที่สุด</div>
+    ${topProducts.length === 0 ? '<div class="empty">ยังไม่มีข้อมูล</div>' :
+    topProducts.map((p,i) => `
+      <div class="history-row">
+        <div class="history-top">
+          <span class="history-name"><span class="badge badge-amber">#${i+1}</span> ${p[0]}</span>
+          <span class="history-amount">${p[1]} ชิ้น</span>
+        </div>
+      </div>`).join('')}
+  </div>`}`;
+}
+
+function exportCSV() {
+  if (sales.length === 0) { showToast('⚠️ ยังไม่มีข้อมูล'); return; }
+  let filtered = [...sales];
+  if (reportStudentFilter) filtered = filtered.filter(s => s.studentId == reportStudentFilter);
+  let rows = ['\uFEFFวันที่,ชื่อนักเรียน,ชั้น,รายการสินค้า,จำนวนเงิน'];
+  filtered.forEach(s => {
+    const items = typeof s.items === 'string' ? JSON.parse(s.items) : (s.items || []);
+    const itemStr = Array.isArray(items) ? items.map(i => i.name+(i.qty>1?` x${i.qty}`:'')).join(' + ') : '';
+    rows.push(`"${s.date}","${s.studentName}","${s.studentClass}","${itemStr}",${s.total}`);
+  });
+  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `สหกรณ์_${todayStr().replace(/\//g,'-')}.csv`;
+  a.click();
+  showToast('📥 ส่งออก CSV แล้ว');
+}
+
+// ===== SETTINGS =====
+function renderSettings() {
+  return `
+  <div class="card">
+    <div class="card-title">การเชื่อมต่อ Google Sheets</div>
+    <div class="input-group" style="margin-bottom:12px">
+      <div class="input-label">Web App URL ปัจจุบัน</div>
+      <input value="${SHEET_URL}" oninput="SHEET_URL=this.value" style="font-size:12px">
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-outline" onclick="saveNewURL()">💾 บันทึก URL ใหม่</button>
+      <button class="btn btn-outline" onclick="syncAll()">🔄 ซิงค์ข้อมูลตอนนี้</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">ล้างข้อมูล</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">ล้างข้อมูลในเครื่อง (ข้อมูลใน Google Sheets ยังอยู่)</p>
+    <button class="btn btn-outline" style="border-color:var(--red);color:var(--red)" onclick="clearCache()">🗑️ ล้าง Cache ในเครื่อง</button>
+  </div>`;
+}
+
+function saveNewURL() {
+  localStorage.setItem(STORAGE_KEY, SHEET_URL);
+  showToast('✅ บันทึก URL แล้ว');
+  syncAll();
+}
+
+function clearCache() {
+  if (!confirm('ล้างข้อมูลในเครื่อง? (ข้อมูลใน Sheets ยังอยู่)')) return;
+  ['students','products','sales'].forEach(k => localStorage.removeItem('cache_'+k));
+  students = []; products = []; sales = [];
+  showToast('🗑️ ล้างแล้ว');
+  syncAll();
+}
+
+// ===== INIT =====
+initApp();
+</script>
+</body>
+</html>
