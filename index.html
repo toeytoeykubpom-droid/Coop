@@ -2,252 +2,432 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>สหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ</title>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>สหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
   :root {
-    --green: #1a7a50; --green-light: #e8f5ee; --green-mid: #2ea66b;
-    --amber: #d97706; --amber-light: #fef3c7;
-    --red: #dc2626; --red-light: #fee2e2;
-    --bg: #f4f6f5; --white: #ffffff;
-    --text: #1a2e22; --text-muted: #6b7c72; --border: #d1ddd6;
-    --radius: 12px; --radius-sm: 8px; --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --primary: #00b894;
+    --primary-dark: #00997a;
+    --primary-light: #e8fff7;
+    --secondary: #00cec9;
+    --accent: #55efc4;
+    --gradient: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    --gradient-light: linear-gradient(135deg, #e8fff7 0%, #d0fff5 100%);
+    --bg: #f5f9f8;
+    --surface: #ffffff;
+    --surface-2: #f0f5f3;
+    --text: #1a2e22;
+    --text-muted: #6b7c72;
+    --text-light: #9ca8a2;
+    --border: #d6e4dd;
+    --red: #e74c3c;
+    --red-light: #fde2de;
+    --amber: #f39c12;
+    --amber-light: #fef3da;
+    --info: #3498db;
+    --info-light: #e3f2fd;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 20px;
+    --shadow: 0 2px 12px rgba(0,184,148,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,184,148,0.15);
+    --shadow-hover: 0 4px 20px rgba(0,184,148,0.18);
+    --transition: cubic-bezier(0.4, 0, 0.2, 1);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; min-height: 100vh; }
-  .header { background: var(--green); color: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-  .header-title { font-size: 17px; font-weight: 700; }
-  .header-sub { font-size: 12px; opacity: 0.8; margin-top: 1px; }
-  .header-right { text-align: right; }
-  .header-date { font-size: 13px; opacity: 0.85; }
-  .sync-status { font-size: 11px; margin-top: 2px; opacity: 0.75; }
-  .nav { display: flex; background: var(--white); border-bottom: 1px solid var(--border); overflow-x: auto; }
-  .nav-btn { flex: 1; min-width: 70px; padding: 12px 8px; border: none; background: none; font-family: 'Sarabun', sans-serif; font-size: 14px; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: .2s; white-space: nowrap; }
-  .nav-btn.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
-  .nav-btn:hover { background: var(--green-light); }
-  .content { padding: 14px; max-width: 800px; margin: 0 auto; }
-  .card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow); }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  [data-theme="dark"] {
+    --primary: #00d4a8;
+    --primary-dark: #00b894;
+    --primary-light: #1a3530;
+    --secondary: #00cec9;
+    --gradient: linear-gradient(135deg, #00b894 0%, #006e6b 100%);
+    --gradient-light: linear-gradient(135deg, #1a3530 0%, #0d2a26 100%);
+    --bg: #0f1614;
+    --surface: #1a2521;
+    --surface-2: #232f2b;
+    --text: #e8f5ee;
+    --text-muted: #9eb3aa;
+    --text-light: #6b8076;
+    --border: #2f3e38;
+    --red-light: #3d1f1c;
+    --amber-light: #3d3018;
+    --info-light: #1c3245;
+    --shadow: 0 2px 12px rgba(0,0,0,0.3);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; min-height: 100vh; transition: background .3s var(--transition), color .3s var(--transition); }
+  .header { background: var(--gradient); color: white; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-lg); }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .header-logo { font-size: 28px; }
+  .header-title { font-size: 17px; font-weight: 700; line-height: 1.2; }
+  .header-sub { font-size: 11px; opacity: 0.9; margin-top: 1px; }
+  .header-actions { display: flex; align-items: center; gap: 8px; }
+  .header-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: .2s var(--transition); }
+  .header-btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
+  .header-btn:active { transform: scale(0.95); }
+  .sync-indicator { font-size: 10px; opacity: 0.85; text-align: right; margin-top: 2px; }
+  .nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; position: sticky; top: 72px; z-index: 99; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn { flex: 1; min-width: 70px; padding: 14px 8px; border: none; background: none; font-family: inherit; font-size: 13px; color: var(--text-muted); cursor: pointer; border-bottom: 3px solid transparent; transition: .25s var(--transition); white-space: nowrap; font-weight: 500; }
+  .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 700; }
+  .nav-btn:hover:not(.active) { background: var(--primary-light); color: var(--primary); }
+  .nav-icon { display: block; font-size: 18px; margin-bottom: 2px; }
+  .content { padding: 16px; max-width: 800px; margin: 0 auto; padding-bottom: 80px; }
+  .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); transition: .3s var(--transition); animation: slideUp .4s var(--transition); }
+  .card:hover { box-shadow: var(--shadow-hover); }
+  .card-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-  .student-card { padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); cursor: pointer; transition: .15s; }
-  .student-card:hover { border-color: var(--green-mid); background: var(--green-light); }
-  .student-card.active { border-color: var(--green); background: var(--green-light); }
-  .student-name { font-size: 13px; font-weight: 500; }
+  .student-card { padding: 12px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); cursor: pointer; transition: .2s var(--transition); }
+  .student-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .student-card.active { border-color: var(--primary); background: var(--primary-light); animation: pop .3s var(--transition); }
+  .student-name { font-size: 13px; font-weight: 600; color: var(--text); }
   .student-class { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-  .product-card { padding: 12px 8px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); cursor: pointer; text-align: center; transition: .15s; }
-  .product-card:hover { border-color: var(--green-mid); background: var(--green-light); transform: scale(1.02); }
-  .product-card:active { transform: scale(0.97); }
-  .product-icon { font-size: 26px; margin-bottom: 4px; }
-  .product-name { font-size: 13px; font-weight: 500; }
-  .product-price { font-size: 14px; color: var(--green); font-weight: 700; margin-top: 3px; }
-  .cart-item { display: flex; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); gap: 8px; }
+  .student-credit { font-size: 10px; color: var(--red); margin-top: 3px; font-weight: 600; }
+  .scan-btn { width: 100%; padding: 14px; background: var(--gradient); color: white; border: none; border-radius: var(--radius); font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 10px; box-shadow: var(--shadow); transition: .25s var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .scan-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 8px; }
+  .product-card { padding: 14px 8px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); cursor: pointer; text-align: center; transition: .2s var(--transition); }
+  .product-card:hover { border-color: var(--primary); transform: translateY(-3px) scale(1.02); box-shadow: var(--shadow); background: var(--primary-light); }
+  .product-card:active { transform: scale(0.95); }
+  .product-icon { font-size: 32px; margin-bottom: 4px; display: block; }
+  .product-name { font-size: 13px; font-weight: 600; }
+  .product-price { font-size: 14px; color: var(--primary); font-weight: 800; margin-top: 4px; }
+  .cart-item { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 8px; animation: slideUp .3s; }
   .cart-item:last-child { border-bottom: none; }
-  .cart-item-name { flex: 1; font-size: 14px; }
-  .qty-ctrl { display: flex; align-items: center; gap: 6px; }
-  .qty-btn { width: 28px; height: 28px; border: 1.5px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
-  .qty-btn:hover { background: var(--green-light); border-color: var(--green); }
-  .qty-num { font-size: 15px; font-weight: 600; min-width: 24px; text-align: center; }
-  .cart-price { font-size: 14px; font-weight: 600; color: var(--green); min-width: 60px; text-align: right; }
-  .total-box { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 0; border-top: 2px solid var(--border); margin-top: 8px; }
-  .total-label { font-size: 16px; color: var(--text-muted); }
-  .total-amount { font-size: 28px; font-weight: 700; color: var(--green); }
-  .btn { padding: 12px 20px; border: none; border-radius: var(--radius-sm); font-family: 'Sarabun', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: .15s; }
-  .btn-green { background: var(--green); color: white; width: 100%; margin-top: 12px; font-size: 17px; padding: 14px; border-radius: var(--radius); }
-  .btn-green:hover:not(:disabled) { background: #155e3e; }
-  .btn-green:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
-  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); font-family: 'Sarabun', sans-serif; font-size: 13px; cursor: pointer; padding: 7px 14px; border-radius: var(--radius-sm); }
-  .btn-outline:hover { border-color: var(--green); color: var(--green); }
-  .btn-danger { background: transparent; border: none; color: var(--red); font-family: 'Sarabun', sans-serif; font-size: 12px; cursor: pointer; padding: 2px 6px; }
-  input, select { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'Sarabun', sans-serif; font-size: 14px; color: var(--text); background: var(--white); outline: none; transition: .15s; }
-  input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,122,80,0.12); }
-  .input-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-end; }
+  .cart-item-name { flex: 1; font-size: 14px; font-weight: 500; }
+  .qty-ctrl { display: flex; align-items: center; gap: 8px; }
+  .qty-btn { width: 30px; height: 30px; border: 2px solid var(--border); border-radius: 8px; background: var(--surface); cursor: pointer; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--text); transition: .2s var(--transition); }
+  .qty-btn:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); transform: scale(1.1); }
+  .qty-num { font-size: 16px; font-weight: 700; min-width: 24px; text-align: center; }
+  .cart-price { font-size: 14px; font-weight: 700; color: var(--primary); min-width: 60px; text-align: right; }
+  .total-box { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-top: 2px dashed var(--border); margin-top: 8px; }
+  .total-label { font-size: 16px; color: var(--text-muted); font-weight: 500; }
+  .total-amount { font-size: 30px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .pay-method { display: flex; gap: 8px; margin-bottom: 12px; }
+  .pay-tab { flex: 1; padding: 10px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); cursor: pointer; text-align: center; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: .2s var(--transition); }
+  .pay-tab.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+  .btn { padding: 12px 20px; border: none; border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: .2s var(--transition); }
+  .btn-primary { background: var(--gradient); color: white; box-shadow: var(--shadow); }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .btn-primary:disabled { background: var(--border); color: var(--text-light); cursor: not-allowed; box-shadow: none; }
+  .btn-full { width: 100%; padding: 16px; font-size: 16px; border-radius: var(--radius); margin-top: 12px; }
+  .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text); padding: 8px 14px; font-size: 13px; }
+  .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+  .btn-danger-text { background: transparent; border: none; color: var(--red); font-family: inherit; font-size: 12px; cursor: pointer; padding: 2px 6px; }
+  .quick-cash { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 6px; margin-top: 10px; }
+  .quick-cash button { padding: 10px 6px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: .2s; color: var(--text); }
+  .quick-cash button:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+  input, select { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text); background: var(--surface); outline: none; transition: .2s var(--transition); }
+  input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); }
+  .input-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-end; }
   .input-group { flex: 1; }
-  .input-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+  .input-label { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 600; }
   .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-  .stat-box { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px; text-align: center; box-shadow: var(--shadow); }
-  .stat-val { font-size: 22px; font-weight: 700; color: var(--green); }
-  .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
-  .badge-green { background: var(--green-light); color: var(--green); }
+  .stat-box { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 14px 10px; text-align: center; box-shadow: var(--shadow); transition: .2s; }
+  .stat-box:hover { transform: translateY(-2px); }
+  .stat-val { font-size: 22px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+  .badge-primary { background: var(--primary-light); color: var(--primary); }
   .badge-amber { background: var(--amber-light); color: var(--amber); }
-  .badge-gray { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
-  .history-row { padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-gray { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+  .history-row { padding: 12px 0; border-bottom: 1px solid var(--border); animation: slideUp .3s; }
   .history-row:last-child { border-bottom: none; }
-  .history-top { display: flex; justify-content: space-between; align-items: center; }
+  .history-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .history-name { font-size: 14px; font-weight: 600; }
-  .history-amount { font-size: 15px; font-weight: 700; color: var(--green); }
-  .history-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
-  .tab-bar { display: flex; gap: 6px; margin-bottom: 14px; }
-  .tab-pill { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--border); background: var(--white); font-family: 'Sarabun', sans-serif; font-size: 13px; cursor: pointer; color: var(--text-muted); }
-  .tab-pill.active { background: var(--green); border-color: var(--green); color: white; font-weight: 600; }
-  .filter-row { display: flex; gap: 8px; margin-bottom: 12px; }
-  .filter-row select { flex: 1; }
-  .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
-  .empty-icon { font-size: 40px; margin-bottom: 10px; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a2e22; color: white; padding: 12px 24px; border-radius: 99px; font-size: 14px; font-weight: 500; transition: .3s; opacity: 0; z-index: 9999; white-space: nowrap; pointer-events: none; }
+  .history-amount { font-size: 16px; font-weight: 800; color: var(--primary); }
+  .history-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 4px; }
+  .tab-pill { padding: 8px 16px; border-radius: 99px; border: 2px solid var(--border); background: var(--surface); font-family: inherit; font-size: 13px; cursor: pointer; color: var(--text-muted); white-space: nowrap; font-weight: 600; transition: .2s; }
+  .tab-pill.active { background: var(--gradient); border-color: transparent; color: white; box-shadow: var(--shadow); }
+  .filter-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-row select { flex: 1; min-width: 150px; }
+  .empty { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 14px; }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(120px); background: var(--text); color: white; padding: 14px 28px; border-radius: 99px; font-size: 14px; font-weight: 600; transition: .35s var(--transition); opacity: 0; z-index: 9999; white-space: nowrap; pointer-events: none; box-shadow: var(--shadow-lg); }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-  .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; z-index: 999; font-size: 15px; color: var(--green); font-weight: 600; display: none; }
-  .loading-overlay.show { display: flex; }
-  /* Setup screen */
-  .setup-screen { max-width: 540px; margin: 40px auto; padding: 14px; }
-  .setup-card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 24px; box-shadow: var(--shadow); }
-  .setup-title { font-size: 20px; font-weight: 700; color: var(--green); margin-bottom: 6px; }
-  .setup-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
-  .setup-step { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
-  .step-num { background: var(--green); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
-  .step-text { font-size: 14px; line-height: 1.6; color: var(--text); }
-  .step-text b { color: var(--green); }
+  .toast.success { background: var(--primary); }
+  .toast.error { background: var(--red); }
+  .toast.warn { background: var(--amber); }
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; animation: fadeIn .25s; }
+  .modal-bg.show { display: flex; }
+  .modal { background: var(--surface); border-radius: var(--radius-lg); max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: pop .3s; }
+  .modal-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .modal-title { font-size: 18px; font-weight: 700; }
+  .modal-close { background: var(--surface-2); border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; color: var(--text-muted); }
+  .modal-body { padding: 20px; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  #qr-reader { width: 100%; border-radius: var(--radius-sm); overflow: hidden; }
+  .pin-input { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+  .pin-digit { width: 50px; height: 60px; border: 2px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-size: 24px; font-weight: 700; background: var(--surface-2); }
+  .pin-digit:focus { border-color: var(--primary); background: var(--primary-light); }
+  .qr-sheet { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px; background: white; }
+  .qr-item { border: 2px dashed #ccc; padding: 12px 8px; text-align: center; border-radius: 8px; page-break-inside: avoid; background: white; }
+  .qr-item canvas { max-width: 100%; height: auto; }
+  .qr-item-name { font-size: 13px; font-weight: 700; margin-top: 6px; color: #000; }
+  .qr-item-class { font-size: 11px; color: #666; }
+  @media print {
+    body { background: white; }
+    .header, .nav, .content > *:not(.print-area), .toast, .modal-bg .modal-header { display: none !important; }
+    .modal-bg { position: static; padding: 0; background: white; }
+    .modal { max-height: none; box-shadow: none; }
+    .modal-body { padding: 0; }
+  }
+  .credit-warning { background: var(--red-light); color: var(--red); padding: 12px; border-radius: var(--radius-sm); font-size: 13px; margin: 8px 0; font-weight: 600; text-align: center; animation: shake .4s; }
+  .credit-info { background: var(--amber-light); color: var(--amber); padding: 10px; border-radius: var(--radius-sm); font-size: 13px; margin: 8px 0; }
   @media (max-width: 500px) {
-    .stat-grid { gap: 6px; }
     .stat-val { font-size: 18px; }
     .student-grid { grid-template-columns: repeat(2, 1fr); }
     .product-grid { grid-template-columns: repeat(3, 1fr); }
+    .header-title { font-size: 15px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Loading overlay -->
-<div class="loading-overlay" id="loading">⏳ กำลังโหลด...</div>
-<div class="toast" id="toast"></div>
-
-<!-- Setup screen (shown when no URL configured) -->
 <div id="setup-screen" style="display:none">
-  <div class="setup-screen">
-    <div class="setup-card">
-      <div class="setup-title">🔧 ตั้งค่าเชื่อมต่อ Google Sheets</div>
-      <div class="setup-sub">วางลิงก์ Web App จาก Google Apps Script ด้านล่าง</div>
-      <div class="input-group" style="margin-bottom:12px">
+  <div style="max-width:500px;margin:40px auto;padding:16px">
+    <div class="card" style="padding:28px">
+      <div style="text-align:center;font-size:48px;margin-bottom:8px">🏫</div>
+      <h2 style="text-align:center;color:var(--primary);margin-bottom:6px;font-size:22px">ตั้งค่าเชื่อมต่อ Google Sheets</h2>
+      <p style="text-align:center;color:var(--text-muted);margin-bottom:24px;font-size:14px">วาง Web App URL จาก Google Apps Script</p>
+      <div class="input-group" style="margin-bottom:16px">
         <div class="input-label">Web App URL</div>
-        <input id="setup-url" placeholder="https://script.google.com/macros/s/..." style="font-size:13px">
+        <input id="setup-url" placeholder="https://script.google.com/macros/s/...">
       </div>
-      <button class="btn btn-green" onclick="saveURL()">✅ บันทึกและเริ่มใช้งาน</button>
-      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
-        <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-muted)">วิธีรับลิงก์ Web App:</div>
-        <div class="setup-step"><div class="step-num">1</div><div class="step-text">เปิด <b>Google Sheets</b> ใหม่ → ตั้งชื่อ <b>"สหกรณ์โรงเรียน"</b></div></div>
-        <div class="setup-step"><div class="step-num">2</div><div class="step-text">คลิกเมนู <b>Extensions → Apps Script</b></div></div>
-        <div class="setup-step"><div class="step-num">3</div><div class="step-text">วางโค้ดจากไฟล์คู่มือ <b>Code.gs</b> แล้วกด <b>Save</b></div></div>
-        <div class="setup-step"><div class="step-num">4</div><div class="step-text">กด <b>Deploy → New deployment</b> → เลือก <b>Web app</b> → ตั้ง Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → <b>Deploy</b></div></div>
-        <div class="setup-step"><div class="step-num">5</div><div class="step-text">คัดลอก <b>Web app URL</b> มาวางช่องบน</div></div>
+      <button class="btn btn-primary btn-full" onclick="saveURL()">✅ บันทึกและเริ่มใช้งาน</button>
+      <div style="margin-top:20px;padding:14px;background:var(--info-light);border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted)">
+        💡 ใช้ URL เดียวกันจาก v1 ได้เลย ไม่ต้อง Deploy ใหม่
       </div>
     </div>
   </div>
 </div>
 
-<!-- Main app -->
-<div id="main-app" style="display:none">
-  <div class="header">
-    <div>
-      <div class="header-title">🏫 สหกรณ์โรงเรียน</div>
-      <div class="header-sub">บ้านนิคมสายโท 12 เหนือ</div>
-    </div>
-    <div class="header-right">
-      <div class="header-date" id="header-date"></div>
-      <div class="sync-status" id="sync-status">🟢 เชื่อมต่อแล้ว</div>
+<div id="pin-screen" style="display:none">
+  <div style="max-width:400px;margin:80px auto;padding:16px">
+    <div class="card" style="padding:32px;text-align:center">
+      <div style="font-size:56px;margin-bottom:12px">🔒</div>
+      <h2 style="color:var(--primary);margin-bottom:6px">ใส่รหัสผ่าน</h2>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:20px" id="pin-message">กรุณาใส่รหัส 4 หลัก (เริ่มต้น: 1234)</p>
+      <div class="pin-input">
+        <input class="pin-digit" maxlength="1" inputmode="numeric" type="password" id="pin1" oninput="onPINInput(0,this)">
+        <input class="pin-digit" maxlength="1" inputmode="numeric" type="password" id="pin2" oninput="onPINInput(1,this)">
+        <input class="pin-digit" maxlength="1" inputmode="numeric" type="password" id="pin3" oninput="onPINInput(2,this)">
+        <input class="pin-digit" maxlength="1" inputmode="numeric" type="password" id="pin4" oninput="onPINInput(3,this)">
+      </div>
+      <p id="pin-error" style="color:var(--red);font-size:13px;margin-top:10px;min-height:18px"></p>
     </div>
   </div>
-  <div class="nav">
-    <button class="nav-btn active" onclick="switchTab('pos')">🛒 ขายสินค้า</button>
-    <button class="nav-btn" onclick="switchTab('products')">📦 สินค้า</button>
-    <button class="nav-btn" onclick="switchTab('students')">👦 นักเรียน</button>
-    <button class="nav-btn" onclick="switchTab('report')">📊 รายงาน</button>
-    <button class="nav-btn" onclick="switchTab('settings')">⚙️ ตั้งค่า</button>
+</div>
+
+<div id="main-app" style="display:none">
+  <div class="header">
+    <div class="header-left">
+      <div class="header-logo">🏫</div>
+      <div>
+        <div class="header-title">สหกรณ์โรงเรียน</div>
+        <div class="header-sub">บ้านนิคมสายโท 12 เหนือ <span class="badge badge-amber" style="font-size:9px;padding:1px 6px">v2.0</span></div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" onclick="toggleDarkMode()" id="theme-btn" title="โหมดมืด">🌙</button>
+      <button class="header-btn" onclick="lockApp()" title="ล็อก">🔒</button>
+      <div style="text-align:center">
+        <button class="header-btn" id="sync-btn" onclick="syncAll()" style="font-size:14px">🔄</button>
+        <div class="sync-indicator" id="sync-status">เชื่อมต่อ</div>
+      </div>
+    </div>
+  </div>
+  <div class="nav" id="nav">
+    <button class="nav-btn active" onclick="switchTab('pos')"><span class="nav-icon">🛒</span>ขายสินค้า</button>
+    <button class="nav-btn" onclick="switchTab('credit')"><span class="nav-icon">💳</span>เครดิต</button>
+    <button class="nav-btn" onclick="switchTab('products')"><span class="nav-icon">📦</span>สินค้า</button>
+    <button class="nav-btn" onclick="switchTab('students')"><span class="nav-icon">👦</span>นักเรียน</button>
+    <button class="nav-btn" onclick="switchTab('report')"><span class="nav-icon">📊</span>รายงาน</button>
+    <button class="nav-btn" onclick="switchTab('settings')"><span class="nav-icon">⚙️</span>ตั้งค่า</button>
   </div>
   <div class="content" id="content"></div>
 </div>
 
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="scanner-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📷 สแกน QR นักเรียน</div>
+      <button class="modal-close" onclick="closeScanner()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="qr-reader"></div>
+      <p style="margin-top:14px;font-size:13px;color:var(--text-muted);text-align:center">นำกล้องไปส่อง QR Code ของนักเรียน</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="print-modal">
+  <div class="modal" style="max-width:90vw">
+    <div class="modal-header">
+      <div class="modal-title">🖨️ พิมพ์ QR Code นักเรียน</div>
+      <button class="modal-close" onclick="document.getElementById('print-modal').classList.remove('show')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:12px;display:flex;gap:8px">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ พิมพ์</button>
+        <button class="btn btn-outline" onclick="document.getElementById('print-modal').classList.remove('show')">ยกเลิก</button>
+      </div>
+      <div class="qr-sheet print-area" id="qr-sheet"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-// ===== CONFIG =====
-const STORAGE_KEY = 'coop_sheet_url';
+const STORAGE_KEY = 'coop_sheet_url_v2';
+const PIN_KEY = 'coop_pin_v2';
+const THEME_KEY = 'coop_theme_v2';
+const DEFAULT_PIN = '1234';
+const CREDIT_LIMIT = 100;
 let SHEET_URL = localStorage.getItem(STORAGE_KEY) || '';
 
-// ===== LOCAL CACHE =====
-function loadCache(key, def) {
-  try { const v = localStorage.getItem('cache_'+key); return v ? JSON.parse(v) : def; } catch { return def; }
-}
-function saveCache(key, val) {
-  try { localStorage.setItem('cache_'+key, JSON.stringify(val)); } catch {}
-}
+function loadCache(key, def) { try { const v = localStorage.getItem('cache_v2_'+key); return v ? JSON.parse(v) : def; } catch { return def; } }
+function saveCache(key, val) { try { localStorage.setItem('cache_v2_'+key, JSON.stringify(val)); } catch {} }
 
 let students = loadCache('students', []);
 let products = loadCache('products', [
-  {id:1, name:'ข้าวกล่อง', price:15, icon:'🍱'},
-  {id:2, name:'น้ำดื่ม', price:5, icon:'💧'},
-  {id:3, name:'ขนมปัง', price:8, icon:'🍞'},
-  {id:4, name:'นม UHT', price:12, icon:'🥛'},
-  {id:5, name:'ยางลบ', price:5, icon:'📐'},
-  {id:6, name:'ดินสอ', price:3, icon:'✏️'},
-  {id:7, name:'ไอศกรีม', price:10, icon:'🍦'},
-  {id:8, name:'มาม่าถ้วย', price:12, icon:'🍜'},
+  {id:'1', name:'ข้าวกล่อง', price:15, icon:'🍱'},
+  {id:'2', name:'น้ำดื่ม', price:5, icon:'💧'},
+  {id:'3', name:'ขนมปัง', price:8, icon:'🍞'},
+  {id:'4', name:'นม UHT', price:12, icon:'🥛'},
+  {id:'5', name:'ยางลบ', price:5, icon:'📐'},
+  {id:'6', name:'ดินสอ', price:3, icon:'✏️'},
+  {id:'7', name:'ไอศกรีม', price:10, icon:'🍦'},
+  {id:'8', name:'มาม่าถ้วย', price:12, icon:'🍜'},
 ]);
 let sales = loadCache('sales', []);
+let credits = loadCache('credits', []);
 
-// ===== STATE =====
 let tab = 'pos';
-let pos = { studentId: null, cart: [], received: '' };
+let pos = { studentId: null, cart: [], received: '', payMethod: 'cash' };
 let newStudent = { name: '', class: '' };
 let newProduct = { name: '', price: '', icon: '🛍️' };
 let reportStudentFilter = '';
 let reportTab = 'history';
+let scanner = null;
+let pinPurpose = 'unlock';
+let pinCallback = null;
 
-// ===== HELPERS =====
 function fmt(n) { return Number(n).toLocaleString('th-TH'); }
 function todayStr() { return new Date().toLocaleDateString('th-TH', {day:'2-digit', month:'2-digit', year:'numeric'}); }
-function thaiDate(d) { return new Date(d).toLocaleDateString('th-TH', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'}); }
 
-// แปลง sale record เป็น Date object (ใช้ timestamp ก่อน, fallback เป็น date)
 function getSaleDate(s) {
   if (s.timestamp) {
     let ts = s.timestamp;
-    // ถ้า timestamp เป็นรูปแบบ ISO และปีเป็น พ.ศ. (เช่น 2569) ให้แปลงเป็น ค.ศ.
     if (typeof ts === 'string') {
       const yearMatch = ts.match(/^(\d{4})-/);
-      if (yearMatch) {
-        const year = parseInt(yearMatch[1]);
-        if (year > 2400) {
-          ts = ts.replace(/^\d{4}/, year - 543);
-        }
-      }
+      if (yearMatch) { const year = parseInt(yearMatch[1]); if (year > 2400) ts = ts.replace(/^\d{4}/, year - 543); }
     }
     const d = new Date(ts);
     if (!isNaN(d.getTime())) return d;
   }
-  // fallback: parse Thai date "DD/MM/YYYY" (พ.ศ.)
   if (typeof s.date === 'string' && s.date.includes('/')) {
     const parts = s.date.split('/');
     if (parts.length === 3) {
       let year = parseInt(parts[2]);
-      if (year > 2400) year -= 543; // แปลง พ.ศ. เป็น ค.ศ.
+      if (year > 2400) year -= 543;
       return new Date(year, parseInt(parts[1])-1, parseInt(parts[0]));
     }
   }
   return new Date(s.date);
 }
 
-// เช็คว่า sale อยู่ในวันเดียวกับ targetDate ไหม (เปรียบเทียบ ค.ศ.-เดือน-วัน)
 function isSameDay(sale, targetDate) {
   const d = getSaleDate(sale);
   if (isNaN(d.getTime())) return false;
-  return d.getFullYear() === targetDate.getFullYear() &&
-         d.getMonth() === targetDate.getMonth() &&
-         d.getDate() === targetDate.getDate();
+  return d.getFullYear() === targetDate.getFullYear() && d.getMonth() === targetDate.getMonth() && d.getDate() === targetDate.getDate();
 }
 
-function showToast(msg, duration=2200) {
+function getStudentCredit(studentId) {
+  return credits.filter(c => c.studentId == studentId && !c.paid).reduce((a, b) => a + Number(b.amount), 0);
+}
+
+function showToast(msg, type='') {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._to); t._to = setTimeout(() => t.classList.remove('show'), duration);
-}
-function showLoading(msg='⏳ กำลังโหลด...') { const l = document.getElementById('loading'); l.textContent = msg; l.classList.add('show'); }
-function hideLoading() { document.getElementById('loading').classList.remove('show'); }
-function updateDate() {
-  const el = document.getElementById('header-date');
-  if (el) el.innerHTML = new Date().toLocaleDateString('th-TH', {weekday:'short', day:'numeric', month:'short'}) + '<br>' + new Date().toLocaleTimeString('th-TH', {hour:'2-digit', minute:'2-digit'});
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.className = 'toast ' + type, 2500);
 }
 
-// ===== GOOGLE SHEETS API =====
+function toggleDarkMode() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem(THEME_KEY, next);
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+const savedTheme = localStorage.getItem(THEME_KEY);
+if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+function lockApp() {
+  sessionStorage.removeItem('coop_unlocked');
+  sessionStorage.removeItem('coop_admin_verified');
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('pin-screen').style.display = 'block';
+  document.getElementById('pin-message').textContent = 'กรุณาใส่รหัส 4 หลัก';
+  document.getElementById('pin-error').textContent = '';
+  pinPurpose = 'unlock';
+  resetPIN();
+  setTimeout(() => document.getElementById('pin1').focus(), 100);
+}
+
+function requirePIN(callback, message='กรุณายืนยันรหัส') {
+  document.getElementById('main-app').style.display = 'none';
+  document.getElementById('pin-screen').style.display = 'block';
+  document.getElementById('pin-message').textContent = message;
+  document.getElementById('pin-error').textContent = '';
+  pinPurpose = 'verify';
+  pinCallback = callback;
+  resetPIN();
+  setTimeout(() => document.getElementById('pin1').focus(), 100);
+}
+
+function resetPIN() {
+  for (let i = 1; i <= 4; i++) document.getElementById('pin'+i).value = '';
+}
+
+function onPINInput(idx, el) {
+  if (el.value && idx < 3) document.getElementById('pin'+(idx+2)).focus();
+  if (idx === 3 && el.value) checkPIN();
+}
+
+function checkPIN() {
+  const pin = ['pin1','pin2','pin3','pin4'].map(id => document.getElementById(id).value).join('');
+  const savedPIN = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+  if (pin === savedPIN) {
+    document.getElementById('pin-screen').style.display = 'none';
+    if (pinPurpose === 'unlock') {
+      sessionStorage.setItem('coop_unlocked', 'true');
+      initApp();
+    } else {
+      document.getElementById('main-app').style.display = 'block';
+      if (pinCallback) { const cb = pinCallback; pinCallback = null; cb(); }
+    }
+  } else {
+    document.getElementById('pin-error').textContent = '❌ รหัสไม่ถูกต้อง';
+    document.querySelector('.pin-input').style.animation = 'shake .4s';
+    setTimeout(() => document.querySelector('.pin-input').style.animation = '', 400);
+    resetPIN();
+    document.getElementById('pin1').focus();
+  }
+}
+
 async function sheetAPI(action, data = {}) {
   if (!SHEET_URL) throw new Error('ไม่มี URL');
   const params = new URLSearchParams({ action, ...Object.fromEntries(Object.entries(data).map(([k,v]) => [k, typeof v === 'object' ? JSON.stringify(v) : v])) });
@@ -260,28 +440,26 @@ async function sheetAPI(action, data = {}) {
 async function syncAll() {
   if (!SHEET_URL) return;
   try {
-    document.getElementById('sync-status').textContent = '🔄 กำลังซิงค์...';
+    document.getElementById('sync-status').textContent = 'ซิงค์...';
     const [stRes, prRes, saRes] = await Promise.all([
-      sheetAPI('getStudents'),
-      sheetAPI('getProducts'),
-      sheetAPI('getSales')
+      sheetAPI('getStudents'), sheetAPI('getProducts'), sheetAPI('getSales')
     ]);
     if (stRes.students) { students = stRes.students; saveCache('students', students); }
     if (prRes.products) { products = prRes.products; saveCache('products', products); }
     if (saRes.sales) { sales = saRes.sales; saveCache('sales', sales); }
-    document.getElementById('sync-status').textContent = '🟢 ซิงค์แล้ว ' + new Date().toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'});
+    document.getElementById('sync-status').textContent = new Date().toLocaleTimeString('th-TH', {hour:'2-digit',minute:'2-digit'});
     render();
   } catch(e) {
-    document.getElementById('sync-status').textContent = '🔴 ออฟไลน์';
+    document.getElementById('sync-status').textContent = 'ออฟไลน์';
   }
 }
 
-// ===== SETUP =====
 function saveURL() {
   const url = document.getElementById('setup-url').value.trim();
-  if (!url.startsWith('https://script.google.com')) { showToast('⚠️ URL ไม่ถูกต้อง'); return; }
+  if (!url.startsWith('https://script.google.com')) { showToast('⚠️ URL ไม่ถูกต้อง', 'error'); return; }
   SHEET_URL = url;
   localStorage.setItem(STORAGE_KEY, url);
+  sessionStorage.setItem('coop_unlocked', 'true');
   initApp();
 }
 
@@ -289,40 +467,59 @@ function initApp() {
   if (!SHEET_URL) {
     document.getElementById('setup-screen').style.display = 'block';
     document.getElementById('main-app').style.display = 'none';
+    document.getElementById('pin-screen').style.display = 'none';
     return;
   }
   document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('pin-screen').style.display = 'none';
   document.getElementById('main-app').style.display = 'block';
-  updateDate();
-  setInterval(updateDate, 30000);
-  setInterval(syncAll, 60000); // auto sync every minute
+  if (!window._syncInterval) window._syncInterval = setInterval(syncAll, 60000);
   render();
   syncAll();
 }
 
-// ===== TAB SWITCH =====
 function switchTab(t) {
+  const protectedTabs = ['students', 'products', 'settings'];
+  if (protectedTabs.includes(t) && tab !== t) {
+    const verified = sessionStorage.getItem('coop_admin_verified') === 'true';
+    if (!verified) {
+      requirePIN(() => {
+        sessionStorage.setItem('coop_admin_verified', 'true');
+        tab = t;
+        updateNavButtons();
+        render();
+      }, '🔒 หน้านี้สำหรับครูผู้ดูแล');
+      return;
+    }
+  }
   tab = t;
-  document.querySelectorAll('.nav-btn').forEach((b, i) => {
-    b.classList.toggle('active', ['pos','products','students','report','settings'][i] === t);
-  });
+  updateNavButtons();
   render();
+}
+
+function updateNavButtons() {
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    b.classList.toggle('active', ['pos','credit','products','students','report','settings'][i] === tab);
+  });
 }
 
 function render() {
   const c = document.getElementById('content');
   if (!c) return;
   if (tab === 'pos') c.innerHTML = renderPOS();
+  else if (tab === 'credit') c.innerHTML = renderCredit();
   else if (tab === 'products') c.innerHTML = renderProducts();
   else if (tab === 'students') c.innerHTML = renderStudents();
   else if (tab === 'report') c.innerHTML = renderReport();
   else c.innerHTML = renderSettings();
 }
 
-// ===== POS =====
 function renderPOS() {
   const sel = students.find(s => s.id == pos.studentId);
   const total = pos.cart.reduce((a, i) => a + i.price * i.qty, 0);
+  const credit = sel ? getStudentCredit(sel.id) : 0;
+  const wouldExceedCredit = sel && pos.payMethod === 'credit' && (credit + total) > CREDIT_LIMIT;
+
   const cartHtml = pos.cart.length === 0
     ? '<div class="empty"><div class="empty-icon">🛒</div>กดเลือกสินค้าด้านบน</div>'
     : pos.cart.map(item => `
@@ -337,17 +534,23 @@ function renderPOS() {
       </div>`).join('');
 
   return `
+  <button class="scan-btn" onclick="openScanner()">📷 สแกน QR นักเรียน</button>
+
   <div class="card">
     <div class="card-title">เลือกนักเรียน</div>
-    ${students.length === 0 ? '<div class="empty" style="padding:16px">ยังไม่มีข้อมูลนักเรียน — ไปที่แท็บ "นักเรียน" เพื่อเพิ่ม</div>' :
+    ${students.length === 0 ? '<div class="empty" style="padding:16px">ยังไม่มีนักเรียน</div>' :
     `<div class="student-grid">
-      ${students.map(s => `
+      ${students.map(s => {
+        const c = getStudentCredit(s.id);
+        return `
         <div class="student-card ${pos.studentId == s.id ? 'active' : ''}" onclick="selectStudent('${s.id}')">
           <div class="student-name">${s.name}</div>
           <div class="student-class">${s.class}</div>
-        </div>`).join('')}
+          ${c > 0 ? `<div class="student-credit">💳 ค้าง ${fmt(c)} ฿</div>` : ''}
+        </div>`;}).join('')}
     </div>`}
   </div>
+
   <div class="card">
     <div class="card-title">เลือกสินค้า</div>
     <div class="product-grid">
@@ -359,55 +562,56 @@ function renderPOS() {
         </div>`).join('')}
     </div>
   </div>
+
   <div class="card">
-    <div class="card-title">ตะกร้าสินค้า ${sel ? `— <span class="badge badge-green">${sel.name}</span>` : '<span class="badge badge-gray">กรุณาเลือกนักเรียนก่อน</span>'}</div>
+    <div class="card-title">
+      ตะกร้าสินค้า
+      ${sel ? `— <span class="badge badge-primary">${sel.name}</span>` : '<span class="badge badge-gray">เลือกนักเรียนก่อน</span>'}
+    </div>
+    ${sel && credit > 0 ? `<div class="credit-info">💳 มียอดค้าง ${fmt(credit)} ฿ · เหลือเครดิต ${fmt(CREDIT_LIMIT - credit)} ฿</div>` : ''}
     <div>${cartHtml}</div>
     <div class="total-box">
       <span class="total-label">รวมทั้งหมด</span>
       <span class="total-amount">${fmt(total)} ฿</span>
     </div>
+
     ${total > 0 ? `
-    <div style="margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)">
-      <div class="input-label" style="font-size:14px;margin-bottom:8px">💵 รับเงินมา</div>
-      <input type="number" min="0" step="1" inputmode="numeric"
-        placeholder="จำนวนเงินที่รับ" value="${pos.received}"
-        oninput="pos.received=this.value;updateChange()"
-        style="font-size:18px;font-weight:600;text-align:right;padding:12px">
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
-        ${[20, 50, 100, 500, 1000].map(v => `
-          <button class="btn btn-outline" style="flex:1;min-width:60px;padding:8px 4px;font-size:13px"
-            onclick="pos.received='${v}';render()">${v}</button>`).join('')}
-        <button class="btn btn-outline" style="flex:1;min-width:60px;padding:8px 4px;font-size:13px"
-          onclick="pos.received='${total}';render()">พอดี</button>
+    <div class="pay-method">
+      <div class="pay-tab ${pos.payMethod==='cash'?'active':''}" onclick="pos.payMethod='cash';pos.received='';render()">💵 เงินสด</div>
+      <div class="pay-tab ${pos.payMethod==='credit'?'active':''}" onclick="pos.payMethod='credit';pos.received='';render()">💳 ค้างชำระ</div>
+    </div>
+
+    ${pos.payMethod === 'cash' ? `
+    <div style="padding:12px 0">
+      <div class="input-label">💵 รับเงินมา</div>
+      <input type="number" min="0" step="1" inputmode="numeric" placeholder="จำนวนเงินที่รับ" value="${pos.received}" oninput="pos.received=this.value;updateChange()" style="font-size:18px;font-weight:700;text-align:right">
+      <div class="quick-cash">
+        ${[20, 50, 100, 500, 1000].map(v => `<button onclick="pos.received='${v}';render()">${v}</button>`).join('')}
+        <button onclick="pos.received='${total}';render()" style="background:var(--primary-light);color:var(--primary);border-color:var(--primary)">พอดี</button>
       </div>
       ${pos.received !== '' && Number(pos.received) >= total ? `
-      <div class="total-box" style="background:var(--green-light);margin:12px -14px -14px;padding:14px;border-radius:0 0 var(--radius) var(--radius);border-top:2px solid var(--green)">
-        <span class="total-label" style="color:var(--green);font-weight:600">เงินทอน</span>
+      <div class="total-box" style="background:var(--primary-light);margin:14px -16px -16px;padding:16px;border-radius:0 0 var(--radius) var(--radius);border-top:2px solid var(--primary)">
+        <span class="total-label" style="color:var(--primary);font-weight:700">เงินทอน</span>
         <span class="total-amount">${fmt(Number(pos.received) - total)} ฿</span>
       </div>` : pos.received !== '' && Number(pos.received) < total ? `
-      <div style="text-align:center;color:var(--red);font-weight:600;margin-top:10px;padding:8px;background:var(--red-light);border-radius:var(--radius-sm)">
-        ⚠️ เงินไม่พอ ขาดอีก ${fmt(total - Number(pos.received))} ฿
-      </div>` : ''}
-    </div>` : ''}
-    <button class="btn btn-green" ${!pos.studentId || total === 0 || (pos.received !== '' && Number(pos.received) < total) ? 'disabled' : ''} onclick="checkout()">✅ บันทึกการขาย</button>
+      <div class="credit-warning">⚠️ เงินไม่พอ ขาดอีก ${fmt(total - Number(pos.received))} ฿</div>` : ''}
+    </div>` : `
+    <div style="padding:12px 0">
+      ${wouldExceedCredit ? `<div class="credit-warning">❌ เกินวงเงิน! สูงสุด ${fmt(CREDIT_LIMIT)} ฿/คน</div>` :
+      `<div class="credit-info">📝 จะบันทึกเป็นยอดค้าง: ${fmt(credit + total)}/${fmt(CREDIT_LIMIT)} ฿</div>`}
+    </div>`}` : ''}
+
+    <button class="btn btn-primary btn-full" ${!pos.studentId || total === 0 || (pos.payMethod==='cash' && pos.received !== '' && Number(pos.received) < total) || wouldExceedCredit ? 'disabled' : ''} onclick="checkout()">
+      ${pos.payMethod === 'credit' ? '💳 บันทึกค้างชำระ' : '✅ บันทึกการขาย'}
+    </button>
   </div>`;
 }
 
-function updateChange() {
-  // อัปเดตเฉพาะส่วนที่จำเป็น โดยไม่ render ใหม่ทั้งหมด (เพื่อไม่ให้ input เสีย focus)
-  render();
-  // คืน focus ที่ช่อง input
-  setTimeout(() => {
-    const inputs = document.querySelectorAll('input[type="number"]');
-    const last = inputs[inputs.length - 1];
-    if (last) { last.focus(); last.setSelectionRange(last.value.length, last.value.length); }
-  }, 0);
-}
-
+function updateChange() { render(); setTimeout(() => { const inputs = document.querySelectorAll('input[type="number"]'); const last = inputs[inputs.length-1]; if (last) { last.focus(); last.setSelectionRange(last.value.length, last.value.length); } }, 0); }
 function selectStudent(id) { pos.studentId = id; render(); }
 
 function addToCart(pid) {
-  if (!pos.studentId) { showToast('⚠️ กรุณาเลือกนักเรียนก่อน'); return; }
+  if (!pos.studentId) { showToast('⚠️ เลือกนักเรียนก่อน', 'warn'); return; }
   const p = products.find(x => x.id == pid);
   const ex = pos.cart.find(x => x.id == pid);
   if (ex) ex.qty++; else pos.cart.push({ ...p, qty: 1 });
@@ -425,61 +629,114 @@ function changeQty(pid, d) {
 async function checkout() {
   const total = pos.cart.reduce((a, i) => a + i.price * i.qty, 0);
   const s = students.find(x => x.id == pos.studentId);
+  const isCredit = pos.payMethod === 'credit';
+
   const record = {
-    timestamp: new Date().toISOString(),
-    date: todayStr(),
-    studentId: s.id,
-    studentName: s.name,
-    studentClass: s.class,
+    timestamp: new Date().toISOString(), date: todayStr(),
+    studentId: s.id, studentName: s.name, studentClass: s.class,
     items: pos.cart.map(i => ({ name: i.name, price: i.price, qty: i.qty, icon: i.icon })),
-    total
+    total, payMethod: isCredit ? 'credit' : 'cash'
   };
-  // Add to local cache immediately
-  const localRecord = { id: Date.now(), ...record };
-  sales.push(localRecord);
+
+  sales.push({ id: Date.now().toString(), ...record });
   saveCache('sales', sales);
-  showToast(`✅ บันทึกแล้ว — ${s.name} ${fmt(total)} ฿`);
-  pos = { studentId: null, cart: [], received: '' };
-  render();
-  // Send to Google Sheets
-  try {
-    await sheetAPI('addSale', { data: record });
-    document.getElementById('sync-status').textContent = '🟢 ซิงค์แล้ว';
-  } catch(e) {
-    document.getElementById('sync-status').textContent = '🔴 รอซิงค์ (ออฟไลน์)';
+
+  if (isCredit) {
+    credits.push({
+      id: 'cr_' + Date.now(), studentId: s.id, studentName: s.name, amount: total,
+      date: todayStr(), timestamp: new Date().toISOString(),
+      items: pos.cart.map(i => `${i.icon||''}${i.name}${i.qty>1?` x${i.qty}`:''}`).join(', '),
+      paid: false
+    });
+    saveCache('credits', credits);
+    showToast(`💳 บันทึกค้างชำระ ${fmt(total)} ฿`, 'warn');
+  } else {
+    showToast(`✅ ขายสำเร็จ ${fmt(total)} ฿`, 'success');
   }
+
+  pos = { studentId: null, cart: [], received: '', payMethod: 'cash' };
+  render();
+  try { await sheetAPI('addSale', { data: record }); document.getElementById('sync-status').textContent = 'ซิงค์แล้ว'; }
+  catch(e) { document.getElementById('sync-status').textContent = 'รอซิงค์'; }
 }
 
-// ===== PRODUCTS =====
+function renderCredit() {
+  const unpaid = credits.filter(c => !c.paid);
+  const byStudent = {};
+  unpaid.forEach(c => {
+    if (!byStudent[c.studentId]) byStudent[c.studentId] = { student: students.find(s => s.id == c.studentId), items: [], total: 0 };
+    byStudent[c.studentId].items.push(c);
+    byStudent[c.studentId].total += Number(c.amount);
+  });
+  const list = Object.values(byStudent).filter(g => g.student).sort((a,b) => b.total - a.total);
+  const grandTotal = list.reduce((a,b) => a + b.total, 0);
+
+  return `
+  <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
+    <div class="stat-box"><div class="stat-val">${list.length}</div><div class="stat-lbl">คนที่ค้างชำระ</div></div>
+    <div class="stat-box"><div class="stat-val">${fmt(grandTotal)}</div><div class="stat-lbl">ยอดค้างรวม (฿)</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">💳 รายการค้างชำระ</div>
+    ${list.length === 0 ? '<div class="empty"><div class="empty-icon">✨</div>ไม่มีรายการค้างชำระ</div>' :
+    list.map(g => `
+      <div style="border:2px solid var(--border);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap">
+          <div>
+            <div style="font-weight:700">👦 ${g.student.name} <span class="badge badge-gray">${g.student.class}</span></div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${g.items.length} รายการ · เครดิต ${fmt(g.total)}/${fmt(CREDIT_LIMIT)} ฿</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:20px;font-weight:800;color:var(--red)">${fmt(g.total)} ฿</div>
+            <button class="btn btn-primary" style="font-size:12px;padding:6px 12px;margin-top:4px" onclick="payCredit('${g.student.id}')">✅ ชำระแล้ว</button>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:8px;font-size:12px;color:var(--text-muted)">
+          ${g.items.map(c => `<div style="padding:4px 0">• ${c.date} — ${c.items} — <b style="color:var(--red)">${fmt(c.amount)} ฿</b></div>`).join('')}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+function payCredit(studentId) {
+  const s = students.find(x => x.id == studentId);
+  const total = getStudentCredit(studentId);
+  if (!confirm(`ยืนยันว่า ${s.name} ชำระยอดค้าง ${fmt(total)} ฿ แล้ว?`)) return;
+  credits.forEach(c => { if (c.studentId == studentId && !c.paid) { c.paid = true; c.paidDate = todayStr(); } });
+  saveCache('credits', credits);
+  showToast(`✅ ${s.name} ชำระแล้ว ${fmt(total)} ฿`, 'success');
+  render();
+}
+
 function renderProducts() {
   return `
   <div class="card">
     <div class="card-title">เพิ่มสินค้าใหม่</div>
     <div class="input-row">
-      <div class="input-group" style="max-width:70px">
+      <div class="input-group" style="max-width:80px">
         <div class="input-label">ไอคอน</div>
-        <input id="picon" value="${newProduct.icon}" oninput="newProduct.icon=this.value">
+        <input value="${newProduct.icon}" oninput="newProduct.icon=this.value" style="text-align:center;font-size:20px">
       </div>
       <div class="input-group" style="flex:2">
         <div class="input-label">ชื่อสินค้า</div>
-        <input id="pname" placeholder="ชื่อสินค้า" value="${newProduct.name}" oninput="newProduct.name=this.value">
+        <input placeholder="ชื่อสินค้า" value="${newProduct.name}" oninput="newProduct.name=this.value">
       </div>
       <div class="input-group" style="max-width:100px">
         <div class="input-label">ราคา (฿)</div>
-        <input id="pprice" type="number" min="0" value="${newProduct.price}" oninput="newProduct.price=this.value">
+        <input type="number" min="0" value="${newProduct.price}" oninput="newProduct.price=this.value">
       </div>
     </div>
-    <button class="btn btn-outline" onclick="addProduct()">+ เพิ่มสินค้า</button>
+    <button class="btn btn-primary btn-full" onclick="addProduct()">+ เพิ่มสินค้า</button>
   </div>
   <div class="card">
-    <div class="card-title">รายการสินค้า (${products.length} รายการ)</div>
+    <div class="card-title">รายการสินค้า (${products.length})</div>
     ${products.map(p => `
       <div class="history-row">
         <div class="history-top">
           <span class="history-name">${p.icon} ${p.name}</span>
           <span style="display:flex;align-items:center;gap:10px">
             <span class="history-amount">${fmt(p.price)} ฿</span>
-            <button class="btn-danger" onclick="removeProduct('${p.id}')">ลบ</button>
+            <button class="btn-danger-text" onclick="removeProduct('${p.id}')">ลบ</button>
           </span>
         </div>
       </div>`).join('')}
@@ -487,12 +744,12 @@ function renderProducts() {
 }
 
 async function addProduct() {
-  if (!newProduct.name || !newProduct.price) { showToast('⚠️ กรอกชื่อและราคาด้วย'); return; }
+  if (!newProduct.name || !newProduct.price) { showToast('⚠️ กรอกให้ครบ', 'warn'); return; }
   const p = { id: Date.now().toString(), name: newProduct.name.trim(), price: parseFloat(newProduct.price), icon: newProduct.icon || '🛍️' };
   products.push(p);
   saveCache('products', products);
   newProduct = { name: '', price: '', icon: '🛍️' };
-  showToast('✅ เพิ่มสินค้าแล้ว');
+  showToast('✅ เพิ่มแล้ว', 'success');
   render();
   try { await sheetAPI('addProduct', { data: p }); } catch {}
 }
@@ -501,12 +758,10 @@ async function removeProduct(id) {
   if (!confirm('ลบสินค้านี้?')) return;
   products = products.filter(p => p.id != id);
   saveCache('products', products);
-  showToast('🗑️ ลบสินค้าแล้ว');
   render();
   try { await sheetAPI('deleteProduct', { id }); } catch {}
 }
 
-// ===== STUDENTS =====
 function renderStudents() {
   return `
   <div class="card">
@@ -514,46 +769,52 @@ function renderStudents() {
     <div class="input-row">
       <div class="input-group" style="flex:2">
         <div class="input-label">ชื่อ-นามสกุล</div>
-        <input placeholder="เช่น ด.ช.สมชาย ใจดี" value="${newStudent.name}" oninput="newStudent.name=this.value">
+        <input placeholder="ด.ช./ด.ญ. ชื่อ นามสกุล" value="${newStudent.name}" oninput="newStudent.name=this.value">
       </div>
       <div class="input-group" style="max-width:110px">
         <div class="input-label">ชั้น</div>
         <select onchange="newStudent.class=this.value">
           <option value="">เลือก</option>
-          ${['อ.1','อ.2','อ.3','ป.1','ป.2','ป.3','ป.4','ป.5','ป.6'].map(c =>
-            `<option ${newStudent.class===c?'selected':''}>${c}</option>`).join('')}
+          ${['อ.1','อ.2','อ.3','ป.1','ป.2','ป.3','ป.4','ป.5','ป.6'].map(c => `<option ${newStudent.class===c?'selected':''}>${c}</option>`).join('')}
         </select>
       </div>
     </div>
-    <button class="btn btn-outline" onclick="addStudent()">+ เพิ่มนักเรียน</button>
+    <button class="btn btn-primary btn-full" onclick="addStudent()">+ เพิ่มนักเรียน</button>
   </div>
   <div class="card">
-    <div class="card-title">รายชื่อนักเรียน (${students.length} คน)</div>
+    <div class="card-title">
+      <span>รายชื่อนักเรียน (${students.length})</span>
+      <button class="btn btn-outline" onclick="openPrintQR()">🖨️ พิมพ์ QR ทั้งหมด</button>
+    </div>
     ${students.length === 0 ? '<div class="empty"><div class="empty-icon">👦</div>ยังไม่มีนักเรียน</div>' :
     students.map(s => {
       const sSales = sales.filter(x => x.studentId == s.id);
       const total = sSales.reduce((a, b) => a + Number(b.total), 0);
+      const credit = getStudentCredit(s.id);
       return `
       <div class="history-row">
         <div class="history-top">
           <span class="history-name">👦 ${s.name}</span>
           <span style="display:flex;align-items:center;gap:8px">
             <span class="badge badge-gray">${s.class}</span>
-            <button class="btn-danger" onclick="removeStudent('${s.id}')">ลบ</button>
+            <button class="btn-danger-text" onclick="removeStudent('${s.id}')">ลบ</button>
           </span>
         </div>
-        <div class="history-sub">ซื้อ ${sSales.length} ครั้ง · รวม ${fmt(total)} ฿</div>
+        <div class="history-sub">
+          ซื้อ ${sSales.length} ครั้ง · รวม ${fmt(total)} ฿
+          ${credit > 0 ? ` · <span style="color:var(--red);font-weight:700">💳 ค้าง ${fmt(credit)} ฿</span>` : ''}
+        </div>
       </div>`;}).join('')}
   </div>`;
 }
 
 async function addStudent() {
-  if (!newStudent.name || !newStudent.class) { showToast('⚠️ กรอกชื่อและชั้นด้วย'); return; }
+  if (!newStudent.name || !newStudent.class) { showToast('⚠️ กรอกให้ครบ', 'warn'); return; }
   const s = { id: Date.now().toString(), name: newStudent.name.trim(), class: newStudent.class };
   students.push(s);
   saveCache('students', students);
   newStudent = { name: '', class: '' };
-  showToast('✅ เพิ่มนักเรียนแล้ว');
+  showToast('✅ เพิ่มแล้ว', 'success');
   render();
   try { await sheetAPI('addStudent', { data: s }); } catch {}
 }
@@ -562,77 +823,57 @@ async function removeStudent(id) {
   if (!confirm('ลบนักเรียนนี้?')) return;
   students = students.filter(s => s.id != id);
   saveCache('students', students);
-  showToast('🗑️ ลบนักเรียนแล้ว');
   render();
   try { await sheetAPI('deleteStudent', { id }); } catch {}
 }
 
-// ===== SUMMARY =====
-function renderSummary() {
-  // คำนวณยอดรวมและจำนวนครั้งของนักเรียนแต่ละคน
-  const summary = students.map(s => {
-    const studentSales = sales.filter(x => x.studentId == s.id);
-    const total = studentSales.reduce((a, b) => a + Number(b.total), 0);
-    const times = studentSales.length;
-    const lastDate = studentSales.length > 0 ? studentSales[studentSales.length - 1].date : '-';
-    return { ...s, total, times, lastDate };
-  });
-  // เรียงจากมากไปน้อย
-  summary.sort((a, b) => b.total - a.total);
-
-  const grandTotal = summary.reduce((a, b) => a + b.total, 0);
-  const buyersCount = summary.filter(s => s.times > 0).length;
-
-  return `
-  <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
-    <div class="stat-box"><div class="stat-val">${buyersCount}/${students.length}</div><div class="stat-lbl">นักเรียนที่เคยซื้อ</div></div>
-    <div class="stat-box"><div class="stat-val">${fmt(grandTotal)}</div><div class="stat-lbl">ยอดรวมทั้งหมด (฿)</div></div>
-  </div>
-  <div class="card">
-    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
-      <span>สรุปยอดซื้อสะสมของนักเรียน</span>
-      <button class="btn btn-outline" onclick="exportSummaryCSV()" style="font-size:11px;padding:4px 10px">📥 CSV</button>
-    </div>
-    ${summary.length === 0 ? '<div class="empty"><div class="empty-icon">📊</div>ยังไม่มีข้อมูลนักเรียน</div>' :
-    summary.map((s, i) => `
-      <div class="history-row">
-        <div class="history-top">
-          <span class="history-name">
-            ${s.total > 0 ? `<span class="badge badge-amber">#${i+1}</span> ` : ''}
-            👦 ${s.name} <span class="badge badge-gray">${s.class}</span>
-          </span>
-          <span class="history-amount">${fmt(s.total)} ฿</span>
-        </div>
-        <div class="history-sub">
-          ${s.times > 0 ? `ซื้อ ${s.times} ครั้ง · ครั้งล่าสุด ${s.lastDate}` : 'ยังไม่เคยซื้อ'}
-        </div>
-      </div>`).join('')}
-  </div>`;
+function openScanner() {
+  document.getElementById('scanner-modal').classList.add('show');
+  setTimeout(() => {
+    scanner = new Html5Qrcode("qr-reader");
+    scanner.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: { width: 240, height: 240 } },
+      (decodedText) => {
+        let studentId = decodedText;
+        if (decodedText.startsWith('COOP:')) studentId = decodedText.substring(5);
+        const s = students.find(x => x.id == studentId);
+        if (s) {
+          pos.studentId = s.id;
+          showToast(`✅ ${s.name}`, 'success');
+          closeScanner();
+          render();
+        } else {
+          showToast('❌ ไม่พบนักเรียน', 'error');
+        }
+      }
+    ).catch(err => showToast('❌ ไม่สามารถเปิดกล้อง — อนุญาตกล้องในเบราว์เซอร์', 'error'));
+  }, 200);
 }
 
-function exportSummaryCSV() {
-  const summary = students.map(s => {
-    const studentSales = sales.filter(x => x.studentId == s.id);
-    const total = studentSales.reduce((a, b) => a + Number(b.total), 0);
-    const times = studentSales.length;
-    const lastDate = studentSales.length > 0 ? studentSales[studentSales.length - 1].date : '-';
-    return { ...s, total, times, lastDate };
-  });
-  summary.sort((a, b) => b.total - a.total);
-
-  let rows = ['\uFEFFอันดับ,ชื่อนักเรียน,ชั้น,จำนวนครั้งที่ซื้อ,ยอดรวม (บาท),ครั้งล่าสุด'];
-  summary.forEach((s, i) => {
-    rows.push(`${i+1},"${s.name}","${s.class}",${s.times},${s.total},"${s.lastDate}"`);
-  });
-  const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `สรุปยอดรายคน_${todayStr().replace(/\//g,'-')}.csv`;
-  a.click();
-  showToast('📥 ส่งออกแล้ว');
+function closeScanner() {
+  document.getElementById('scanner-modal').classList.remove('show');
+  if (scanner) { scanner.stop().then(() => { scanner.clear(); scanner = null; }).catch(() => {}); }
 }
 
-// ===== 7-DAY CHART =====
+function openPrintQR() {
+  if (students.length === 0) { showToast('⚠️ ยังไม่มีนักเรียน', 'warn'); return; }
+  const sheet = document.getElementById('qr-sheet');
+  sheet.innerHTML = students.map(s => `
+    <div class="qr-item">
+      <canvas id="qr-${s.id}"></canvas>
+      <div class="qr-item-name">${s.name}</div>
+      <div class="qr-item-class">${s.class}</div>
+    </div>`).join('');
+  document.getElementById('print-modal').classList.add('show');
+  setTimeout(() => {
+    students.forEach(s => {
+      const canvas = document.getElementById('qr-' + s.id);
+      if (canvas) QRCode.toCanvas(canvas, 'COOP:' + s.id, { width: 140, margin: 1 });
+    });
+  }, 100);
+}
+
 function render7DayChart() {
   const days = [];
   const today = new Date();
@@ -641,66 +882,63 @@ function render7DayChart() {
     d.setDate(today.getDate() - i);
     const daySales = sales.filter(s => isSameDay(s, d));
     const total = daySales.reduce((a, b) => a + Number(b.total), 0);
-    const dayLabel = d.toLocaleDateString('th-TH', {weekday: 'short'});
-    const dateLabel = d.toLocaleDateString('th-TH', {day:'numeric', month:'short'});
-    days.push({ dayLabel, dateLabel, total, count: daySales.length, isToday: i === 0 });
+    days.push({ dayLabel: d.toLocaleDateString('th-TH', {weekday: 'short'}), dateLabel: d.toLocaleDateString('th-TH', {day:'numeric', month:'short'}), total, isToday: i === 0 });
   }
   const maxTotal = Math.max(...days.map(d => d.total), 1);
   const weekTotal = days.reduce((a, b) => a + b.total, 0);
-
   return `
   <div class="card">
-    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+    <div class="card-title">
       <span>📈 ยอดขาย 7 วันย้อนหลัง</span>
-      <span style="font-size:13px;color:var(--green);font-weight:700">รวม ${fmt(weekTotal)} ฿</span>
+      <span style="font-size:13px;color:var(--primary);font-weight:800">รวม ${fmt(weekTotal)} ฿</span>
     </div>
     <div style="display:flex;align-items:flex-end;gap:6px;height:140px;padding:0 4px;margin-bottom:8px">
       ${days.map(d => {
         const heightPct = d.total > 0 ? (d.total / maxTotal * 100) : 2;
-        const barColor = d.isToday ? 'var(--green)' : (d.total > 0 ? 'var(--green-mid)' : 'var(--border)');
         return `
         <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%">
-          <div style="font-size:10px;font-weight:600;color:${d.total>0?'var(--green)':'var(--text-muted)'};white-space:nowrap">${d.total > 0 ? fmt(d.total) : ''}</div>
+          <div style="font-size:10px;font-weight:700;color:${d.total>0?'var(--primary)':'var(--text-light)'};white-space:nowrap">${d.total > 0 ? fmt(d.total) : ''}</div>
           <div style="flex:1;width:100%;display:flex;align-items:flex-end">
-            <div style="width:100%;height:${heightPct}%;background:${barColor};border-radius:6px 6px 0 0;min-height:2px;transition:.3s;${d.isToday?'box-shadow:0 0 0 2px var(--green-light)':''}"></div>
+            <div style="width:100%;height:${heightPct}%;background:${d.isToday?'var(--gradient)':d.total>0?'var(--primary)':'var(--border)'};border-radius:8px 8px 0 0;min-height:3px;transition:.4s var(--transition);${d.isToday?'box-shadow:0 0 0 3px var(--primary-light)':''}"></div>
           </div>
         </div>`;
       }).join('')}
     </div>
-    <div style="display:flex;gap:6px;padding:0 4px;border-top:1px solid var(--border);padding-top:8px">
+    <div style="display:flex;gap:6px;padding-top:8px;border-top:1px solid var(--border)">
       ${days.map(d => `
         <div style="flex:1;text-align:center">
-          <div style="font-size:11px;font-weight:${d.isToday?'700':'500'};color:${d.isToday?'var(--green)':'var(--text)'}">${d.dayLabel}</div>
-          <div style="font-size:10px;color:var(--text-muted);margin-top:1px">${d.dateLabel}</div>
+          <div style="font-size:11px;font-weight:${d.isToday?'700':'500'};color:${d.isToday?'var(--primary)':'var(--text)'}">${d.dayLabel}</div>
+          <div style="font-size:10px;color:var(--text-muted)">${d.dateLabel}</div>
         </div>`).join('')}
     </div>
   </div>`;
 }
 
-// ===== REPORT =====
 function renderReport() {
   const todayDate = new Date();
   const todayS = sales.filter(s => isSameDay(s, todayDate));
   const todayTotal = todayS.reduce((a, b) => a + Number(b.total), 0);
   const allTotal = sales.reduce((a, b) => a + Number(b.total), 0);
+
   const productCount = {};
   sales.forEach(s => {
     const items = typeof s.items === 'string' ? JSON.parse(s.items) : s.items;
     if (Array.isArray(items)) items.forEach(i => { productCount[i.name] = (productCount[i.name] || 0) + Number(i.qty); });
   });
   const topProducts = Object.entries(productCount).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
   let filtered = [...sales].reverse();
   if (reportStudentFilter) filtered = filtered.filter(s => s.studentId == reportStudentFilter);
 
   const historyHtml = filtered.length === 0
-    ? '<div class="empty"><div class="empty-icon">📋</div>ยังไม่มีประวัติการขาย</div>'
-    : filtered.map(s => {
+    ? '<div class="empty"><div class="empty-icon">📋</div>ยังไม่มีประวัติ</div>'
+    : filtered.slice(0, 50).map(s => {
         const items = typeof s.items === 'string' ? JSON.parse(s.items) : (s.items || []);
         const itemStr = Array.isArray(items) ? items.map(i => (i.icon||'')+(i.name)+(i.qty>1?` x${i.qty}`:'')).join(', ') : '';
         return `
         <div class="history-row">
           <div class="history-top">
-            <span class="history-name">👦 ${s.studentName} <span class="badge badge-gray">${s.studentClass}</span></span>
+            <span class="history-name">👦 ${s.studentName} <span class="badge badge-gray">${s.studentClass}</span>${s.payMethod==='credit'?' <span class="badge badge-red">เครดิต</span>':''}</span>
             <span class="history-amount">${fmt(s.total)} ฿</span>
           </div>
           <div class="history-sub">${getSaleDate(s).toLocaleDateString('th-TH', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'})} · ${itemStr}</div>
@@ -714,9 +952,9 @@ function renderReport() {
   </div>
   ${render7DayChart()}
   <div class="tab-bar">
-    <button class="tab-pill ${reportTab==='history'?'active':''}" onclick="reportTab='history';render()">ประวัติการซื้อ</button>
-    <button class="tab-pill ${reportTab==='summary'?'active':''}" onclick="reportTab='summary';render()">สรุปยอดรายคน</button>
-    <button class="tab-pill ${reportTab==='top'?'active':''}" onclick="reportTab='top';render()">สินค้าขายดี</button>
+    <button class="tab-pill ${reportTab==='history'?'active':''}" onclick="reportTab='history';render()">ประวัติ</button>
+    <button class="tab-pill ${reportTab==='summary'?'active':''}" onclick="reportTab='summary';render()">สรุปรายคน</button>
+    <button class="tab-pill ${reportTab==='top'?'active':''}" onclick="reportTab='top';render()">ขายดี</button>
   </div>
   ${reportTab === 'history' ? `
   <div class="card">
@@ -725,13 +963,12 @@ function renderReport() {
         <option value="">นักเรียนทั้งหมด</option>
         ${students.map(s => `<option value="${s.id}" ${reportStudentFilter==s.id?'selected':''}>${s.name}</option>`).join('')}
       </select>
-      <button class="btn btn-outline" onclick="exportCSV()" style="white-space:nowrap">📥 CSV</button>
-      <button class="btn btn-outline" onclick="syncAll()" style="white-space:nowrap">🔄 ซิงค์</button>
+      <button class="btn btn-outline" onclick="exportCSV()">📥 CSV</button>
     </div>
     ${historyHtml}
   </div>` : reportTab === 'summary' ? renderSummary() : `
   <div class="card">
-    <div class="card-title">สินค้าที่ขายมากที่สุด</div>
+    <div class="card-title">🏆 สินค้าขายดี</div>
     ${topProducts.length === 0 ? '<div class="empty">ยังไม่มีข้อมูล</div>' :
     topProducts.map((p,i) => `
       <div class="history-row">
@@ -743,61 +980,108 @@ function renderReport() {
   </div>`}`;
 }
 
+function renderSummary() {
+  const summary = students.map(s => {
+    const studentSales = sales.filter(x => x.studentId == s.id);
+    const total = studentSales.reduce((a, b) => a + Number(b.total), 0);
+    return { ...s, total, times: studentSales.length, lastDate: studentSales.length > 0 ? studentSales[studentSales.length - 1].date : '-' };
+  }).sort((a, b) => b.total - a.total);
+
+  return `
+  <div class="card">
+    <div class="card-title">สรุปยอดซื้อสะสม</div>
+    ${summary.length === 0 ? '<div class="empty">ยังไม่มีข้อมูล</div>' :
+    summary.map((s, i) => `
+      <div class="history-row">
+        <div class="history-top">
+          <span class="history-name">${s.total > 0 ? `<span class="badge badge-amber">#${i+1}</span> ` : ''}👦 ${s.name} <span class="badge badge-gray">${s.class}</span></span>
+          <span class="history-amount">${fmt(s.total)} ฿</span>
+        </div>
+        <div class="history-sub">${s.times > 0 ? `ซื้อ ${s.times} ครั้ง · ครั้งล่าสุด ${s.lastDate}` : 'ยังไม่เคยซื้อ'}</div>
+      </div>`).join('')}
+  </div>`;
+}
+
 function exportCSV() {
-  if (sales.length === 0) { showToast('⚠️ ยังไม่มีข้อมูล'); return; }
+  if (sales.length === 0) { showToast('⚠️ ยังไม่มีข้อมูล', 'warn'); return; }
   let filtered = [...sales];
   if (reportStudentFilter) filtered = filtered.filter(s => s.studentId == reportStudentFilter);
-  let rows = ['\uFEFFวันที่,ชื่อนักเรียน,ชั้น,รายการสินค้า,จำนวนเงิน'];
+  let rows = ['\uFEFFวันที่,ชื่อนักเรียน,ชั้น,รายการสินค้า,วิธีชำระ,จำนวนเงิน'];
   filtered.forEach(s => {
     const items = typeof s.items === 'string' ? JSON.parse(s.items) : (s.items || []);
-    const itemStr = Array.isArray(items) ? items.map(i => i.name+(i.qty>1?` x${i.qty}`:'')).join(' + ') : '';
-    rows.push(`"${s.date}","${s.studentName}","${s.studentClass}","${itemStr}",${s.total}`);
+    const itemStr = Array.isArray(items) ? items.map(i => i.name + (i.qty>1?` x${i.qty}`:'')).join(' + ') : '';
+    rows.push(`"${s.date}","${s.studentName}","${s.studentClass}","${itemStr}","${s.payMethod==='credit'?'ค้างชำระ':'เงินสด'}",${s.total}`);
   });
   const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = `สหกรณ์_${todayStr().replace(/\//g,'-')}.csv`;
   a.click();
-  showToast('📥 ส่งออก CSV แล้ว');
+  showToast('📥 ส่งออกแล้ว', 'success');
 }
 
-// ===== SETTINGS =====
 function renderSettings() {
   return `
   <div class="card">
-    <div class="card-title">การเชื่อมต่อ Google Sheets</div>
-    <div class="input-group" style="margin-bottom:12px">
-      <div class="input-label">Web App URL ปัจจุบัน</div>
-      <input value="${SHEET_URL}" oninput="SHEET_URL=this.value" style="font-size:12px">
+    <div class="card-title">🔒 รหัสผ่านครูผู้ดูแล</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">รหัสปัจจุบัน: ${localStorage.getItem(PIN_KEY) ? '••••' : DEFAULT_PIN + ' (ค่าเริ่มต้น)'}</p>
+    <button class="btn btn-outline" onclick="changePIN()">เปลี่ยนรหัส 4 หลัก</button>
+  </div>
+  <div class="card">
+    <div class="card-title">🔗 การเชื่อมต่อ Google Sheets</div>
+    <div class="input-group" style="margin-bottom:10px">
+      <div class="input-label">Web App URL</div>
+      <input value="${SHEET_URL}" oninput="SHEET_URL=this.value" style="font-size:11px">
     </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-outline" onclick="saveNewURL()">💾 บันทึก URL ใหม่</button>
-      <button class="btn btn-outline" onclick="syncAll()">🔄 ซิงค์ข้อมูลตอนนี้</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-outline" onclick="saveNewURL()">💾 บันทึก URL</button>
+      <button class="btn btn-outline" onclick="syncAll()">🔄 ซิงค์ตอนนี้</button>
     </div>
   </div>
   <div class="card">
-    <div class="card-title">ล้างข้อมูล</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">ล้างข้อมูลในเครื่อง (ข้อมูลใน Google Sheets ยังอยู่)</p>
-    <button class="btn btn-outline" style="border-color:var(--red);color:var(--red)" onclick="clearCache()">🗑️ ล้าง Cache ในเครื่อง</button>
+    <div class="card-title">💳 ระบบเครดิต</div>
+    <p style="font-size:14px">วงเงินสูงสุด: <b style="color:var(--primary)">${fmt(CREDIT_LIMIT)} บาท/คน</b></p>
+  </div>
+  <div class="card">
+    <div class="card-title">🗑️ ล้างข้อมูลในเครื่อง</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">ข้อมูลใน Google Sheets ยังอยู่</p>
+    <button class="btn btn-outline" style="border-color:var(--red);color:var(--red)" onclick="clearCache()">ล้าง Cache</button>
+  </div>
+  <div class="card" style="text-align:center;background:var(--gradient-light)">
+    <div style="font-size:32px;margin-bottom:6px">🏫</div>
+    <div style="font-weight:700;color:var(--primary)">สหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ</div>
+    <div style="font-size:12px;color:var(--text-muted);margin-top:4px">เวอร์ชั่น 2.0 · Modern Mint Theme</div>
   </div>`;
 }
 
-function saveNewURL() {
-  localStorage.setItem(STORAGE_KEY, SHEET_URL);
-  showToast('✅ บันทึก URL แล้ว');
-  syncAll();
+function changePIN() {
+  const oldPIN = prompt('ใส่รหัสปัจจุบัน (4 หลัก):');
+  const savedPIN = localStorage.getItem(PIN_KEY) || DEFAULT_PIN;
+  if (oldPIN !== savedPIN) { showToast('❌ รหัสไม่ถูกต้อง', 'error'); return; }
+  const newPIN = prompt('รหัสใหม่ (4 หลัก):');
+  if (!newPIN || !/^\d{4}$/.test(newPIN)) { showToast('⚠️ ต้องเป็นตัวเลข 4 หลัก', 'warn'); return; }
+  const confirmPIN = prompt('ยืนยันรหัสใหม่:');
+  if (newPIN !== confirmPIN) { showToast('❌ ไม่ตรงกัน', 'error'); return; }
+  localStorage.setItem(PIN_KEY, newPIN);
+  showToast('✅ เปลี่ยนรหัสแล้ว', 'success');
+  render();
 }
 
+function saveNewURL() { localStorage.setItem(STORAGE_KEY, SHEET_URL); showToast('✅ บันทึกแล้ว', 'success'); syncAll(); }
 function clearCache() {
-  if (!confirm('ล้างข้อมูลในเครื่อง? (ข้อมูลใน Sheets ยังอยู่)')) return;
-  ['students','products','sales'].forEach(k => localStorage.removeItem('cache_'+k));
-  students = []; products = []; sales = [];
-  showToast('🗑️ ล้างแล้ว');
+  if (!confirm('ล้างข้อมูลในเครื่อง?')) return;
+  ['students','products','sales','credits'].forEach(k => localStorage.removeItem('cache_v2_'+k));
+  students = []; products = []; sales = []; credits = [];
+  showToast('🗑️ ล้างแล้ว', 'success');
   syncAll();
 }
 
-// ===== INIT =====
-initApp();
+// INIT — ใส่รหัสก่อนเข้าครั้งแรกของ session
+if (!sessionStorage.getItem('coop_unlocked') && SHEET_URL) {
+  lockApp();
+} else {
+  initApp();
+}
 </script>
 </body>
 </html>
