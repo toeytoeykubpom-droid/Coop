@@ -313,7 +313,7 @@ let sales = loadCache('sales', []);
 let credits = loadCache('credits', []);
 
 let tab = 'pos';
-let pos = { studentId: null, cart: [], received: '', payMethod: 'cash' };
+let pos = { studentId: null, cart: [], received: '', payMethod: 'cash', step: 'select' };
 let newStudent = { name: '', class: '' };
 let newProduct = { name: '', price: '', icon: '🛍️' };
 let reportStudentFilter = '';
@@ -515,6 +515,83 @@ function render() {
 }
 
 function renderPOS() {
+  // Step 1: เลือกนักเรียน
+  if (pos.step === 'select' || !pos.studentId) {
+    return renderPOSSelectStudent();
+  }
+  // Step 2: เลือกสินค้าและคิดเงิน
+  return renderPOSCart();
+}
+
+function renderPOSSelectStudent() {
+  // จัดกลุ่มนักเรียนตามชั้น
+  const classOrder = ['อ.1','อ.2','อ.3','ป.1','ป.2','ป.3','ป.4','ป.5','ป.6'];
+  const byClass = {};
+  students.forEach(s => {
+    if (!byClass[s.class]) byClass[s.class] = [];
+    byClass[s.class].push(s);
+  });
+  // เรียงชั้นตามลำดับมาตรฐาน + ชั้นอื่นๆ ที่ไม่อยู่ในรายการ
+  const sortedClasses = Object.keys(byClass).sort((a, b) => {
+    const ai = classOrder.indexOf(a);
+    const bi = classOrder.indexOf(b);
+    if (ai === -1 && bi === -1) return a.localeCompare(b, 'th');
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+  // เรียงชื่อในแต่ละชั้นตามตัวอักษร
+  sortedClasses.forEach(c => byClass[c].sort((a, b) => a.name.localeCompare(b.name, 'th')));
+
+  return `
+  <button class="scan-btn" onclick="openScanner()">📷 สแกน QR นักเรียน</button>
+
+  <div class="card">
+    <div class="card-title">
+      <span>👦 เลือกนักเรียน</span>
+      <span style="font-size:11px;color:var(--text-muted);font-weight:500;text-transform:none;letter-spacing:0">${students.length} คน</span>
+    </div>
+    ${students.length === 0 ? '<div class="empty"><div class="empty-icon">👦</div>ยังไม่มีนักเรียน — เพิ่มในแท็บนักเรียน</div>' :
+    sortedClasses.map(cls => `
+      <div style="margin-bottom:18px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--primary-light)">
+          <span class="badge badge-primary" style="font-size:13px;padding:5px 14px">${cls}</span>
+          <span style="font-size:12px;color:var(--text-muted)">${byClass[cls].length} คน</span>
+        </div>
+        <div class="student-grid">
+          ${byClass[cls].map(s => {
+            const c = getStudentCredit(s.id);
+            return `
+            <div class="student-card" onclick="selectStudentAndNext('${s.id}')">
+              <div class="student-name">${s.name}</div>
+              ${c > 0 ? `<div class="student-credit">💳 ค้าง ${fmt(c)} ฿</div>` : ''}
+            </div>`;}).join('')}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+function selectStudentAndNext(id) {
+  pos.studentId = id;
+  pos.step = 'cart';
+  pos.cart = [];
+  pos.received = '';
+  pos.payMethod = 'cash';
+  render();
+  // scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToSelectStudent() {
+  if (pos.cart.length > 0) {
+    if (!confirm('ยกเลิกรายการสินค้านี้?')) return;
+  }
+  pos = { studentId: null, cart: [], received: '', payMethod: 'cash', step: 'select' };
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderPOSCart() {
   const sel = students.find(s => s.id == pos.studentId);
   const total = pos.cart.reduce((a, i) => a + i.price * i.qty, 0);
   const credit = sel ? getStudentCredit(sel.id) : 0;
@@ -534,21 +611,15 @@ function renderPOS() {
       </div>`).join('');
 
   return `
-  <button class="scan-btn" onclick="openScanner()">📷 สแกน QR นักเรียน</button>
-
-  <div class="card">
-    <div class="card-title">เลือกนักเรียน</div>
-    ${students.length === 0 ? '<div class="empty" style="padding:16px">ยังไม่มีนักเรียน</div>' :
-    `<div class="student-grid">
-      ${students.map(s => {
-        const c = getStudentCredit(s.id);
-        return `
-        <div class="student-card ${pos.studentId == s.id ? 'active' : ''}" onclick="selectStudent('${s.id}')">
-          <div class="student-name">${s.name}</div>
-          <div class="student-class">${s.class}</div>
-          ${c > 0 ? `<div class="student-credit">💳 ค้าง ${fmt(c)} ฿</div>` : ''}
-        </div>`;}).join('')}
-    </div>`}
+  <div class="card" style="background:var(--gradient-light);border-color:var(--primary)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <button class="btn btn-outline" onclick="backToSelectStudent()" style="padding:8px 12px;font-size:14px;border-color:var(--primary);color:var(--primary)">← เปลี่ยน</button>
+      <div style="flex:1">
+        <div style="font-size:11px;color:var(--text-muted);font-weight:600">กำลังขายให้</div>
+        <div style="font-size:17px;font-weight:700;color:var(--primary)">👦 ${sel.name} <span class="badge badge-primary" style="font-size:11px">${sel.class}</span></div>
+      </div>
+    </div>
+    ${credit > 0 ? `<div class="credit-info" style="margin-top:10px;margin-bottom:0">💳 มียอดค้าง ${fmt(credit)} ฿ · เหลือเครดิต ${fmt(CREDIT_LIMIT - credit)} ฿</div>` : ''}
   </div>
 
   <div class="card">
@@ -564,11 +635,7 @@ function renderPOS() {
   </div>
 
   <div class="card">
-    <div class="card-title">
-      ตะกร้าสินค้า
-      ${sel ? `— <span class="badge badge-primary">${sel.name}</span>` : '<span class="badge badge-gray">เลือกนักเรียนก่อน</span>'}
-    </div>
-    ${sel && credit > 0 ? `<div class="credit-info">💳 มียอดค้าง ${fmt(credit)} ฿ · เหลือเครดิต ${fmt(CREDIT_LIMIT - credit)} ฿</div>` : ''}
+    <div class="card-title">ตะกร้าสินค้า ${pos.cart.length > 0 ? `<span class="badge badge-primary">${pos.cart.reduce((a,b)=>a+b.qty,0)} ชิ้น</span>` : ''}</div>
     <div>${cartHtml}</div>
     <div class="total-box">
       <span class="total-label">รวมทั้งหมด</span>
@@ -601,7 +668,7 @@ function renderPOS() {
       `<div class="credit-info">📝 จะบันทึกเป็นยอดค้าง: ${fmt(credit + total)}/${fmt(CREDIT_LIMIT)} ฿</div>`}
     </div>`}` : ''}
 
-    <button class="btn btn-primary btn-full" ${!pos.studentId || total === 0 || (pos.payMethod==='cash' && pos.received !== '' && Number(pos.received) < total) || wouldExceedCredit ? 'disabled' : ''} onclick="checkout()">
+    <button class="btn btn-primary btn-full" ${total === 0 || (pos.payMethod==='cash' && pos.received !== '' && Number(pos.received) < total) || wouldExceedCredit ? 'disabled' : ''} onclick="checkout()">
       ${pos.payMethod === 'credit' ? '💳 บันทึกค้างชำระ' : '✅ บันทึกการขาย'}
     </button>
   </div>`;
@@ -654,7 +721,7 @@ async function checkout() {
     showToast(`✅ ขายสำเร็จ ${fmt(total)} ฿`, 'success');
   }
 
-  pos = { studentId: null, cart: [], received: '', payMethod: 'cash' };
+  pos = { studentId: null, cart: [], received: '', payMethod: 'cash', step: 'select' };
   render();
   try { await sheetAPI('addSale', { data: record }); document.getElementById('sync-status').textContent = 'ซิงค์แล้ว'; }
   catch(e) { document.getElementById('sync-status').textContent = 'รอซิงค์'; }
@@ -839,10 +906,9 @@ function openScanner() {
         if (decodedText.startsWith('COOP:')) studentId = decodedText.substring(5);
         const s = students.find(x => x.id == studentId);
         if (s) {
-          pos.studentId = s.id;
           showToast(`✅ ${s.name}`, 'success');
           closeScanner();
-          render();
+          selectStudentAndNext(s.id);
         } else {
           showToast('❌ ไม่พบนักเรียน', 'error');
         }
