@@ -176,6 +176,53 @@
   .search-input { width: 100%; padding: 12px 14px 12px 40px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%236b7c72' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 12px center; background-size: 18px; }
   .last-sale-banner { background: var(--info-light); border: 2px solid var(--info); padding: 10px 14px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; margin-bottom: 12px; animation: slideUp .3s; flex-wrap: wrap; }
   .last-sale-info { flex: 1; font-size: 12px; color: var(--info); min-width: 140px; }
+
+  /* === ID Card === */
+  .id-cards-sheet { background: white; padding: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12mm; }
+  .id-card { width: 148mm; height: 105mm; background: white; border: 1.5px solid #ddd; border-radius: 8px; padding: 16px; position: relative; page-break-inside: avoid; overflow: hidden; color: #000; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .id-card-header { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); color: white; margin: -16px -16px 12px; padding: 12px 16px; border-radius: 8px 8px 0 0; }
+  .id-card-school { font-size: 13px; font-weight: 700; line-height: 1.3; }
+  .id-card-sub { font-size: 11px; opacity: 0.9; margin-top: 2px; }
+  .id-card-body { display: flex; gap: 14px; align-items: center; }
+  .id-card-photo { width: 70px; height: 90px; border: 2px solid #00b894; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 40px; background: #e8fff7; flex-shrink: 0; overflow: hidden; }
+  .id-card-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .id-card-info { flex: 1; min-width: 0; }
+  .id-card-name { font-size: 17px; font-weight: 800; color: #00b894; margin-bottom: 4px; line-height: 1.2; }
+  .id-card-class { font-size: 13px; color: #666; margin-bottom: 4px; }
+  .id-card-id { font-size: 10px; color: #888; font-family: monospace; }
+  .id-card-qr { position: absolute; right: 12px; bottom: 12px; background: white; padding: 4px; border-radius: 4px; }
+  .id-card-footer { position: absolute; bottom: 10px; left: 16px; font-size: 9px; color: #aaa; font-style: italic; }
+
+  /* === Executive Report === */
+  .exec-report { background: white; color: #000; padding: 40px; max-width: 800px; margin: 0 auto; font-family: 'Sarabun', serif; }
+  .exec-header { text-align: center; border-bottom: 3px double #00b894; padding-bottom: 20px; margin-bottom: 30px; }
+  .exec-school-logo { font-size: 56px; margin-bottom: 8px; }
+  .exec-school-name { font-size: 22px; font-weight: 800; color: #00b894; margin-bottom: 4px; }
+  .exec-school-sub { font-size: 14px; color: #666; }
+  .exec-title { font-size: 26px; font-weight: 800; text-align: center; margin: 24px 0 8px; color: #1a2e22; }
+  .exec-period { text-align: center; font-size: 15px; color: #666; margin-bottom: 30px; font-style: italic; }
+  .exec-section { margin-bottom: 24px; }
+  .exec-section-title { font-size: 16px; font-weight: 700; color: #00b894; border-left: 4px solid #00b894; padding-left: 12px; margin-bottom: 12px; }
+  .exec-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+  .exec-stat { background: linear-gradient(135deg, #e8fff7 0%, #d0fff5 100%); border-left: 4px solid #00b894; padding: 16px; border-radius: 6px; }
+  .exec-stat-val { font-size: 28px; font-weight: 800; color: #00b894; }
+  .exec-stat-lbl { font-size: 12px; color: #555; margin-top: 4px; font-weight: 600; }
+  .exec-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  .exec-table th { background: #00b894; color: white; padding: 10px; text-align: left; font-size: 13px; font-weight: 700; }
+  .exec-table td { padding: 8px 10px; border-bottom: 1px solid #eee; font-size: 13px; color: #333; }
+  .exec-table tr:nth-child(even) { background: #f5f9f8; }
+  .exec-signatures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 60px; }
+  .exec-sig-box { text-align: center; }
+  .exec-sig-line { border-bottom: 1.5px dotted #333; height: 60px; margin-bottom: 6px; }
+  .exec-sig-title { font-size: 13px; color: #333; font-weight: 600; }
+  .exec-sig-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .exec-date { text-align: right; font-size: 13px; color: #666; margin-bottom: 20px; }
+  .exec-watermark { position: fixed; bottom: 10px; right: 10px; font-size: 9px; color: #ccc; }
+
+  /* === Message Composer === */
+  .msg-preview { background: var(--surface-2); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-size: 13px; white-space: pre-wrap; line-height: 1.6; margin: 10px 0; font-family: monospace; max-height: 300px; overflow-y: auto; }
+  .msg-line-style { background: #06C755; color: white; padding: 12px 20px; border-radius: 99px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit; font-size: 14px; }
+  .msg-line-style:hover { background: #04A647; }
   @media (max-width: 500px) {
     .stat-val { font-size: 18px; }
     .student-grid { grid-template-columns: repeat(2, 1fr); }
@@ -288,6 +335,54 @@
         <button class="btn btn-outline" onclick="saveReceiptImage()">📷 บันทึกรูป</button>
       </div>
       <div id="receipt-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ID Card Modal -->
+<div class="modal-bg" id="idcard-modal">
+  <div class="modal" style="max-width:95vw">
+    <div class="modal-header">
+      <div class="modal-title">🪪 บัตรสมาชิก</div>
+      <button class="modal-close" onclick="document.getElementById('idcard-modal').classList.remove('show')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ พิมพ์บัตร</button>
+        <button class="btn btn-outline" onclick="document.getElementById('idcard-modal').classList.remove('show')">ยกเลิก</button>
+        <span style="font-size:12px;color:var(--text-muted);margin-left:8px">📐 ขนาด A5 (148×105 mm) · 2 ใบ/หน้า A4</span>
+      </div>
+      <div class="id-cards-sheet print-area" id="idcard-sheet"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Executive Report Modal -->
+<div class="modal-bg" id="exec-report-modal">
+  <div class="modal" style="max-width:95vw">
+    <div class="modal-header">
+      <div class="modal-title">📊 รายงานผู้บริหาร</div>
+      <button class="modal-close" onclick="document.getElementById('exec-report-modal').classList.remove('show')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ พิมพ์รายงาน</button>
+        <button class="btn btn-outline" onclick="document.getElementById('exec-report-modal').classList.remove('show')">ยกเลิก</button>
+      </div>
+      <div class="print-area" id="exec-report-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Message Composer Modal -->
+<div class="modal-bg" id="message-modal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <div class="modal-title">💬 ข้อความถึงผู้ปกครอง</div>
+      <button class="modal-close" onclick="document.getElementById('message-modal').classList.remove('show')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="message-content"></div>
     </div>
   </div>
 </div>
@@ -1359,6 +1454,332 @@ async function removeProduct(id) {
   try { await sheetAPI('deleteProduct', { id }); } catch {}
 }
 
+// ===== ID CARDS =====
+function openIDCards() {
+  if (students.length === 0) { showToast('⚠️ ยังไม่มีนักเรียน', 'warn'); return; }
+  const sheet = document.getElementById('idcard-sheet');
+  sheet.innerHTML = students.map(s => buildIDCard(s)).join('');
+  document.getElementById('idcard-modal').classList.add('show');
+  setTimeout(() => {
+    students.forEach(s => {
+      const canvas = document.getElementById('idqr-' + s.id);
+      if (canvas) QRCode.toCanvas(canvas, 'COOP:' + s.id, { width: 90, margin: 1 });
+    });
+  }, 100);
+}
+
+function openSingleIDCard(studentId) {
+  const s = students.find(x => x.id == studentId);
+  if (!s) return;
+  const sheet = document.getElementById('idcard-sheet');
+  sheet.innerHTML = buildIDCard(s);
+  document.getElementById('idcard-modal').classList.add('show');
+  setTimeout(() => {
+    const canvas = document.getElementById('idqr-' + s.id);
+    if (canvas) QRCode.toCanvas(canvas, 'COOP:' + s.id, { width: 90, margin: 1 });
+  }, 100);
+}
+
+function buildIDCard(s) {
+  // Random pastel color for photo placeholder per student (stable per id)
+  const icons = ['🧑‍🎓','👦','👧','🧒','👶'];
+  const iconIdx = s.id.toString().split('').reduce((a,c)=>a+c.charCodeAt(0),0) % icons.length;
+  return `
+  <div class="id-card">
+    <div class="id-card-header">
+      <div class="id-card-school">🏫 สหกรณ์โรงเรียน</div>
+      <div class="id-card-sub">บ้านนิคมสายโท 12 เหนือ</div>
+    </div>
+    <div class="id-card-body">
+      <div class="id-card-photo">${icons[iconIdx]}</div>
+      <div class="id-card-info">
+        <div class="id-card-name">${s.name}</div>
+        <div class="id-card-class">ชั้น ${s.class}</div>
+        <div class="id-card-id">ID: ${s.id}</div>
+      </div>
+    </div>
+    <div class="id-card-qr"><canvas id="idqr-${s.id}"></canvas></div>
+    <div class="id-card-footer">บัตรสมาชิกสหกรณ์ · ${todayStr()}</div>
+  </div>`;
+}
+
+// ===== PARENT MESSAGE =====
+function composeParentMessage(studentId) {
+  const s = students.find(x => x.id == studentId);
+  if (!s) return;
+
+  // Get this week's purchases (last 7 days)
+  const today = new Date();
+  const weekAgo = new Date(today);
+  weekAgo.setDate(today.getDate() - 7);
+  const weekSales = sales.filter(sale => {
+    if (sale.studentId != s.id) return false;
+    const d = getSaleDate(sale);
+    return d >= weekAgo && d <= today;
+  }).sort((a,b) => getSaleDate(a) - getSaleDate(b));
+
+  const weekTotal = weekSales.reduce((a,b) => a + Number(b.total), 0);
+  const credit = getStudentCredit(s.id);
+  const sav = getStudentSavings(s.id);
+
+  // Build message
+  let msg = `🏫 สหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ\n`;
+  msg += `📋 สรุปการซื้อของ ${s.name} (${s.class})\n`;
+  msg += `📅 สัปดาห์: ${weekAgo.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})} - ${today.toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'numeric'})}\n`;
+  msg += `━━━━━━━━━━━━━━━━━━\n\n`;
+
+  if (weekSales.length === 0) {
+    msg += `ℹ️ สัปดาห์นี้ยังไม่มีการซื้อสินค้า\n\n`;
+  } else {
+    msg += `🛒 รายการซื้อ:\n`;
+    weekSales.forEach(sale => {
+      const d = getSaleDate(sale);
+      const items = typeof sale.items === 'string' ? JSON.parse(sale.items) : sale.items;
+      const itemStr = Array.isArray(items) ? items.map(i => (i.icon||'')+i.name+(i.qty>1?` x${i.qty}`:'')).join(', ') : '';
+      const payIcon = sale.payMethod==='credit'?'💳':sale.payMethod==='savings'?'🏦':'💵';
+      msg += `• ${d.toLocaleDateString('th-TH',{day:'2-digit',month:'short'})} ${payIcon} ${itemStr} = ${fmt(sale.total)} ฿\n`;
+    });
+    msg += `\n💰 รวมยอดสัปดาห์นี้: ${fmt(weekTotal)} บาท\n\n`;
+  }
+
+  if (credit > 0) {
+    msg += `⚠️ มียอดค้างชำระ: ${fmt(credit)} บาท\n`;
+    msg += `(โปรดนำเงินมาชำระที่สหกรณ์)\n\n`;
+  }
+
+  if (sav > 0) {
+    msg += `🏦 เงินออมในสหกรณ์: ${fmt(sav)} บาท\n\n`;
+  }
+
+  msg += `━━━━━━━━━━━━━━━━━━\n`;
+  msg += `ขอบคุณที่ให้ความไว้วางใจค่ะ 🙏`;
+
+  // Show in modal
+  document.getElementById('message-content').innerHTML = `
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:10px">
+      💡 คัดลอกข้อความด้านล่างไปวางในไลน์ หรือกดปุ่มเปิดไลน์เลย
+    </div>
+    <div class="msg-preview" id="msg-text">${msg.replace(/</g,'&lt;')}</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn btn-primary" onclick="copyMessage()">📋 คัดลอกข้อความ</button>
+      <button class="msg-line-style" onclick="openLine()">💬 เปิดไลน์</button>
+    </div>
+    <div style="margin-top:14px;padding:12px;background:var(--info-light);border-radius:var(--radius-sm);font-size:12px;color:var(--info)">
+      📌 <b>วิธีใช้:</b> กด "คัดลอก" → เปิดแอพ LINE → เลือกผู้ปกครอง → วาง → ส่ง
+    </div>`;
+  window._currentMessage = msg;
+  document.getElementById('message-modal').classList.add('show');
+}
+
+function copyMessage() {
+  const msg = window._currentMessage || '';
+  navigator.clipboard.writeText(msg).then(() => {
+    showToast('✅ คัดลอกแล้ว ไปวางใน LINE ได้เลย', 'success');
+    playSound('success');
+  }).catch(() => {
+    // Fallback for older devices
+    const ta = document.createElement('textarea');
+    ta.value = msg; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✅ คัดลอกแล้ว', 'success');
+  });
+}
+
+function openLine() {
+  copyMessage();
+  setTimeout(() => {
+    window.open('https://line.me/R/nv/chat', '_blank');
+  }, 500);
+}
+
+// ===== EXECUTIVE REPORT =====
+function generateExecReport() {
+  const today = new Date();
+  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+  const monthName = today.toLocaleDateString('th-TH', {month:'long', year:'numeric'});
+
+  // This month sales
+  const monthSales = sales.filter(s => {
+    const d = getSaleDate(s);
+    return d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+  });
+  const monthTotal = monthSales.reduce((a,b) => a+Number(b.total), 0);
+  const monthCash = monthSales.filter(s => s.payMethod !== 'credit' && s.payMethod !== 'savings').reduce((a,b) => a+Number(b.total), 0);
+  const monthCredit = monthSales.filter(s => s.payMethod === 'credit').reduce((a,b) => a+Number(b.total), 0);
+  const monthSavingsPay = monthSales.filter(s => s.payMethod === 'savings').reduce((a,b) => a+Number(b.total), 0);
+
+  // Last month
+  const lastMonthDate = new Date(today);
+  lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
+  const lastMonth = sales.filter(s => {
+    const d = getSaleDate(s);
+    return d.getMonth() === lastMonthDate.getMonth() && d.getFullYear() === lastMonthDate.getFullYear();
+  });
+  const lastMonthTotal = lastMonth.reduce((a,b) => a+Number(b.total), 0);
+  const monthDiff = lastMonthTotal > 0 ? ((monthTotal - lastMonthTotal) / lastMonthTotal * 100).toFixed(1) : 0;
+
+  // Average per day
+  const daysInMonth = Math.max(1, today.getDate());
+  const avgPerDay = monthTotal / daysInMonth;
+
+  // Top 10 products
+  const productCount = {};
+  monthSales.forEach(s => {
+    const items = typeof s.items === 'string' ? JSON.parse(s.items) : s.items;
+    if (Array.isArray(items)) items.forEach(i => {
+      if (!productCount[i.name]) productCount[i.name] = { qty: 0, revenue: 0 };
+      productCount[i.name].qty += Number(i.qty);
+      productCount[i.name].revenue += Number(i.qty) * Number(i.price);
+    });
+  });
+  const topProducts = Object.entries(productCount).sort((a,b) => b[1].revenue - a[1].revenue).slice(0, 10);
+
+  // Top 10 buyers
+  const buyers = {};
+  monthSales.forEach(s => {
+    if (!buyers[s.studentId]) buyers[s.studentId] = { name: s.studentName, class: s.studentClass, total: 0, count: 0 };
+    buyers[s.studentId].total += Number(s.total);
+    buyers[s.studentId].count++;
+  });
+  const topBuyers = Object.values(buyers).sort((a,b) => b.total - a.total).slice(0, 10);
+
+  // By class
+  const byClass = {};
+  monthSales.forEach(s => {
+    if (!byClass[s.studentClass]) byClass[s.studentClass] = { total: 0, count: 0 };
+    byClass[s.studentClass].total += Number(s.total);
+    byClass[s.studentClass].count++;
+  });
+  const classData = Object.entries(byClass).sort((a,b) => b[1].total - a[1].total);
+
+  // Credit & Savings
+  const totalUnpaidCredit = credits.filter(c => !c.paid).reduce((a,b) => a + Number(b.amount), 0);
+  const totalSavings = students.reduce((a, s) => a + getStudentSavings(s.id), 0);
+
+  document.getElementById('exec-report-content').innerHTML = `
+  <div class="exec-report">
+    <div class="exec-header">
+      <div class="exec-school-logo">🏫</div>
+      <div class="exec-school-name">โรงเรียนบ้านนิคมสายโท 12 เหนือ</div>
+      <div class="exec-school-sub">SCHOOL COOPERATIVE EXECUTIVE REPORT</div>
+    </div>
+
+    <div class="exec-title">📊 รายงานสรุปกิจการสหกรณ์ประจำเดือน</div>
+    <div class="exec-period">${monthName}</div>
+
+    <div class="exec-date">วันที่จัดทำรายงาน: ${today.toLocaleDateString('th-TH', {day:'2-digit',month:'long',year:'numeric'})}</div>
+
+    <div class="exec-section">
+      <div class="exec-section-title">📈 สรุปยอดขายภาพรวม</div>
+      <div class="exec-stats">
+        <div class="exec-stat">
+          <div class="exec-stat-val">${fmt(monthTotal)} ฿</div>
+          <div class="exec-stat-lbl">ยอดขายรวมเดือนนี้</div>
+        </div>
+        <div class="exec-stat">
+          <div class="exec-stat-val">${monthSales.length}</div>
+          <div class="exec-stat-lbl">จำนวนรายการขาย</div>
+        </div>
+        <div class="exec-stat">
+          <div class="exec-stat-val">${fmt(Math.round(avgPerDay))} ฿</div>
+          <div class="exec-stat-lbl">เฉลี่ยต่อวัน</div>
+        </div>
+        <div class="exec-stat">
+          <div class="exec-stat-val" style="color:${monthDiff>=0?'#00b894':'#e74c3c'}">${monthDiff>=0?'+':''}${monthDiff}%</div>
+          <div class="exec-stat-lbl">เทียบเดือนที่แล้ว (${fmt(lastMonthTotal)} ฿)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exec-section">
+      <div class="exec-section-title">💰 รายรับแยกตามวิธีชำระ</div>
+      <table class="exec-table">
+        <thead><tr><th>วิธีชำระ</th><th style="text-align:right">จำนวนเงิน</th><th style="text-align:right">% ของยอด</th></tr></thead>
+        <tbody>
+          <tr><td>💵 เงินสด</td><td style="text-align:right;font-weight:700">${fmt(monthCash)} ฿</td><td style="text-align:right">${monthTotal>0?((monthCash/monthTotal)*100).toFixed(1):0}%</td></tr>
+          <tr><td>💳 ค้างชำระ</td><td style="text-align:right;font-weight:700;color:#e74c3c">${fmt(monthCredit)} ฿</td><td style="text-align:right">${monthTotal>0?((monthCredit/monthTotal)*100).toFixed(1):0}%</td></tr>
+          <tr><td>🏦 หักเงินออม</td><td style="text-align:right;font-weight:700">${fmt(monthSavingsPay)} ฿</td><td style="text-align:right">${monthTotal>0?((monthSavingsPay/monthTotal)*100).toFixed(1):0}%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    ${topProducts.length > 0 ? `
+    <div class="exec-section">
+      <div class="exec-section-title">🏆 สินค้าขายดี (10 อันดับ)</div>
+      <table class="exec-table">
+        <thead><tr><th style="width:50px">อันดับ</th><th>สินค้า</th><th style="text-align:right">จำนวน (ชิ้น)</th><th style="text-align:right">รายได้ (฿)</th></tr></thead>
+        <tbody>
+          ${topProducts.map((p,i) => `<tr><td><b>#${i+1}</b></td><td>${p[0]}</td><td style="text-align:right">${p[1].qty}</td><td style="text-align:right;font-weight:700">${fmt(p[1].revenue)}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    ${topBuyers.length > 0 ? `
+    <div class="exec-section">
+      <div class="exec-section-title">👦 นักเรียนซื้อสะสมสูงสุด (10 อันดับ)</div>
+      <table class="exec-table">
+        <thead><tr><th style="width:50px">อันดับ</th><th>ชื่อ-นามสกุล</th><th>ชั้น</th><th style="text-align:right">จำนวนครั้ง</th><th style="text-align:right">ยอดรวม (฿)</th></tr></thead>
+        <tbody>
+          ${topBuyers.map((b,i) => `<tr><td><b>#${i+1}</b></td><td>${b.name}</td><td>${b.class}</td><td style="text-align:right">${b.count}</td><td style="text-align:right;font-weight:700">${fmt(b.total)}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    ${classData.length > 0 ? `
+    <div class="exec-section">
+      <div class="exec-section-title">🏫 ยอดซื้อแยกตามชั้น</div>
+      <table class="exec-table">
+        <thead><tr><th>ชั้น</th><th style="text-align:right">จำนวนรายการ</th><th style="text-align:right">ยอดรวม (฿)</th></tr></thead>
+        <tbody>
+          ${classData.map(([cls, d]) => `<tr><td><b>${cls}</b></td><td style="text-align:right">${d.count}</td><td style="text-align:right;font-weight:700">${fmt(d.total)}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
+
+    <div class="exec-section">
+      <div class="exec-section-title">💳 สถานะการเงิน</div>
+      <div class="exec-stats">
+        <div class="exec-stat" style="background:linear-gradient(135deg, #fde2de 0%, #fec5be 100%);border-left-color:#e74c3c">
+          <div class="exec-stat-val" style="color:#e74c3c">${fmt(totalUnpaidCredit)} ฿</div>
+          <div class="exec-stat-lbl">ยอดค้างชำระคงเหลือ</div>
+        </div>
+        <div class="exec-stat">
+          <div class="exec-stat-val">${fmt(totalSavings)} ฿</div>
+          <div class="exec-stat-lbl">เงินออมรวม (นักเรียน)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exec-section" style="margin-top:30px;padding:16px;background:#f5f9f8;border-radius:8px;border-left:4px solid #00b894">
+      <div style="font-weight:700;margin-bottom:8px;color:#00b894">📝 บันทึก/ข้อเสนอแนะ</div>
+      <div style="border-bottom:1px solid #ccc;height:24px"></div>
+      <div style="border-bottom:1px solid #ccc;height:24px;margin-top:8px"></div>
+      <div style="border-bottom:1px solid #ccc;height:24px;margin-top:8px"></div>
+    </div>
+
+    <div class="exec-signatures">
+      <div class="exec-sig-box">
+        <div class="exec-sig-line"></div>
+        <div class="exec-sig-title">(.....................................................)</div>
+        <div class="exec-sig-title" style="margin-top:4px">ครูผู้รับผิดชอบสหกรณ์</div>
+        <div class="exec-sig-sub">วันที่ ........./........./.........</div>
+      </div>
+      <div class="exec-sig-box">
+        <div class="exec-sig-line"></div>
+        <div class="exec-sig-title">(.....................................................)</div>
+        <div class="exec-sig-title" style="margin-top:4px">ผู้อำนวยการโรงเรียน</div>
+        <div class="exec-sig-sub">วันที่ ........./........./.........</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;font-size:10px;color:#aaa;margin-top:40px;border-top:1px solid #eee;padding-top:12px">
+      เอกสารนี้สร้างโดยระบบสหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ · v2.5
+    </div>
+  </div>`;
+  document.getElementById('exec-report-modal').classList.add('show');
+}
+
 // ===== STUDENTS =====
 function renderStudents() {
   return `
@@ -1382,7 +1803,10 @@ function renderStudents() {
   <div class="card">
     <div class="card-title">
       <span>รายชื่อนักเรียน (${students.length})</span>
-      <button class="btn btn-outline" onclick="openPrintQR()">🖨️ พิมพ์ QR ทั้งหมด</button>
+      <span style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="openPrintQR()">🖨️ QR ทั้งหมด</button>
+        <button class="btn btn-outline" onclick="openIDCards()">🪪 พิมพ์บัตร</button>
+      </span>
     </div>
     ${students.length === 0 ? '<div class="empty"><div class="empty-icon">👦</div>ยังไม่มีนักเรียน</div>' :
     students.map(s => {
@@ -1403,6 +1827,10 @@ function renderStudents() {
           ซื้อ ${sSales.length} ครั้ง · รวม ${fmt(total)} ฿
           ${credit > 0 ? ` · <span style="color:var(--red);font-weight:700">💳 ค้าง ${fmt(credit)} ฿</span>` : ''}
           ${sav > 0 ? ` · <span style="color:var(--primary);font-weight:700">🏦 ออม ${fmt(sav)} ฿</span>` : ''}
+        </div>
+        <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-outline" style="font-size:12px;padding:5px 10px" onclick="composeParentMessage('${s.id}')">💬 ข้อความผู้ปกครอง</button>
+          <button class="btn btn-outline" style="font-size:12px;padding:5px 10px" onclick="openSingleIDCard('${s.id}')">🪪 บัตรคนนี้</button>
         </div>
       </div>`;}).join('')}
   </div>`;
@@ -1585,6 +2013,15 @@ function renderReport() {
         </div>`;}).join('');
 
   return `
+  <div class="card" style="background:var(--gradient);color:white;border:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:13px;opacity:0.9;font-weight:600">📋 รายงานผู้บริหาร</div>
+        <div style="font-size:12px;opacity:0.85;margin-top:2px">สรุปยอดรายเดือน + ลงชื่อรับทราบ</div>
+      </div>
+      <button class="btn" style="background:white;color:var(--primary);font-weight:700" onclick="generateExecReport()">📊 สร้างรายงาน</button>
+    </div>
+  </div>
   <div class="stat-grid">
     <div class="stat-box"><div class="stat-val">${fmt(todayTotal)}</div><div class="stat-lbl">ยอดวันนี้ (฿)</div></div>
     <div class="stat-box"><div class="stat-val">${todayS.length}</div><div class="stat-lbl">รายการวันนี้</div></div>
