@@ -174,8 +174,8 @@
   .credit-info { background: var(--amber-light); color: var(--amber); padding: 10px; border-radius: var(--radius-sm); font-size: 13px; margin: 8px 0; }
   .alert-stock { background: var(--amber-light); color: var(--amber); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 12px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
   .search-input { width: 100%; padding: 12px 14px 12px 40px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%236b7c72' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 12px center; background-size: 18px; }
-  .last-sale-banner { background: var(--info-light); border: 2px solid var(--info); padding: 10px 14px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 10px; margin-bottom: 12px; animation: slideUp .3s; }
-  .last-sale-info { flex: 1; font-size: 12px; color: var(--info); }
+  .last-sale-banner { background: var(--info-light); border: 2px solid var(--info); padding: 10px 14px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 8px; margin-bottom: 12px; animation: slideUp .3s; flex-wrap: wrap; }
+  .last-sale-info { flex: 1; font-size: 12px; color: var(--info); min-width: 140px; }
   @media (max-width: 500px) {
     .stat-val { font-size: 18px; }
     .student-grid { grid-template-columns: repeat(2, 1fr); }
@@ -723,7 +723,8 @@ function renderPOSSelectStudent() {
       <div style="font-weight:700;color:var(--info)">บันทึกการขายสำเร็จ</div>
       <div style="margin-top:2px">${lastSaleRef.studentName} · ${fmt(lastSaleRef.total)} ฿</div>
     </div>
-    <button class="btn btn-outline" onclick="undoLastSale()" style="border-color:var(--red);color:var(--red);font-size:12px;padding:6px 12px">↩️ ยกเลิก</button>
+    <button class="btn btn-outline" onclick="showReceipt()" style="border-color:var(--info);color:var(--info);font-size:12px;padding:6px 10px">🧾 ใบเสร็จ</button>
+    <button class="btn btn-outline" onclick="undoLastSale()" style="border-color:var(--red);color:var(--red);font-size:12px;padding:6px 10px">↩️ ยกเลิก</button>
   </div>` : ''}
 
   <button class="scan-btn" onclick="openScanner()">📷 สแกน QR นักเรียน</button>
@@ -908,7 +909,7 @@ function renderPOSCart() {
     <div style="padding:12px 0">
       ${insufficientSavings ? `<div class="credit-warning">❌ เงินออมไม่พอ! มี ${fmt(sav)} ฿ ต้องใช้ ${fmt(total)} ฿</div>` :
       `<div class="credit-info" style="background:var(--primary-light);color:var(--primary)">🏦 หักจากเงินออม ${fmt(total)} ฿ · เหลือ ${fmt(sav - total)} ฿</div>`}
-    </div>`}
+    </div>`}` : ''}
 
     <div style="margin-top:10px">
       <div class="input-label">📝 หมายเหตุ (ไม่บังคับ)</div>
@@ -1015,13 +1016,6 @@ async function checkout() {
   if (isCredit) showToast(`💳 บันทึกค้างชำระ ${fmt(total)} ฿`, 'warn');
   else if (isSavings) showToast(`🏦 หักจากเงินออม ${fmt(total)} ฿`, 'success');
   else showToast(`✅ ขายสำเร็จ ${fmt(total)} ฿`, 'success');
-
-  // Show receipt option
-  setTimeout(() => {
-    if (confirm(`✅ บันทึกการขายสำเร็จ ${fmt(total)} ฿\n\nต้องการดู/พิมพ์ใบเสร็จไหม?`)) {
-      showReceipt();
-    }
-  }, 100);
 
   pos = { studentId: null, cart: [], received: '', payMethod: 'cash', step: 'select', note: '' };
   render();
@@ -1496,13 +1490,15 @@ function renderChart() {
     }
   }
 
+  const todayCheck = new Date();
   const chartData = days.map(d => {
     const daySales = sales.filter(s => isSameDay(s, d));
     const total = daySales.reduce((a, b) => a + Number(b.total), 0);
     return {
       dayLabel: d.toLocaleDateString('th-TH', {weekday: 'short'}),
       dateLabel: d.toLocaleDateString('th-TH', {day:'numeric', month:'short'}),
-      total, isToday: isSameDay({timestamp: d.toISOString()}, today)
+      total,
+      isToday: d.getFullYear() === todayCheck.getFullYear() && d.getMonth() === todayCheck.getMonth() && d.getDate() === todayCheck.getDate()
     };
   });
   const maxTotal = Math.max(...chartData.map(d => d.total), 1);
