@@ -1595,32 +1595,83 @@ function openLine() {
 
 // ===== EXECUTIVE REPORT =====
 function generateExecReport() {
-  const today = new Date();
-  const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-  const monthName = today.toLocaleDateString('th-TH', {month:'long', year:'numeric'});
+  // หาเดือนที่มีข้อมูลขาย
+  const monthsWithData = new Set();
+  sales.forEach(s => {
+    const d = getSaleDate(s);
+    if (!isNaN(d.getTime())) {
+      monthsWithData.add(`${d.getFullYear()}-${String(d.getMonth()).padStart(2,'0')}`);
+    }
+  });
 
-  // This month sales
+  // เพิ่มเดือนปัจจุบันด้วยเสมอ
+  const today = new Date();
+  monthsWithData.add(`${today.getFullYear()}-${String(today.getMonth()).padStart(2,'0')}`);
+
+  // เรียงจากใหม่ไปเก่า
+  const monthList = Array.from(monthsWithData).sort().reverse();
+
+  const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+  // สร้างตัวเลือกเดือน
+  let optionsHtml = monthList.map(m => {
+    const [y, mo] = m.split('-').map(Number);
+    const label = `${thaiMonths[mo]} ${y + 543}`;
+    const isCurrent = y === today.getFullYear() && mo === today.getMonth();
+    return `<option value="${m}" ${isCurrent?'selected':''}>${label}${isCurrent?' (เดือนปัจจุบัน)':''}</option>`;
+  }).join('');
+
+  // แสดง modal เลือกเดือนก่อน
+  document.getElementById('exec-report-content').innerHTML = `
+    <div style="max-width:500px;margin:0 auto;padding:40px 20px;text-align:center">
+      <div style="font-size:56px;margin-bottom:12px">📅</div>
+      <h2 style="color:var(--primary);margin-bottom:8px">เลือกเดือนที่จะรายงาน</h2>
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:24px">เลือกเดือนที่ต้องการสร้างรายงานสรุปกิจการ</p>
+
+      <div class="input-group" style="margin-bottom:20px;text-align:left">
+        <div class="input-label">📆 เดือน</div>
+        <select id="exec-month-select" style="font-size:16px;font-weight:600">
+          ${optionsHtml}
+        </select>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="renderExecReportForMonth()">📊 สร้างรายงาน</button>
+    </div>`;
+  document.getElementById('exec-report-modal').classList.add('show');
+}
+
+function renderExecReportForMonth() {
+  const selected = document.getElementById('exec-month-select').value;
+  const [year, month] = selected.split('-').map(Number);
+  const targetDate = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  const isCurrentMonth = year === today.getFullYear() && month === today.getMonth();
+  const daysInMonth = isCurrentMonth ? today.getDate() : lastDayOfMonth;
+
+  const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  const monthName = `${thaiMonths[month]} ${year + 543}`;
+
+  // เดือนที่เลือก
   const monthSales = sales.filter(s => {
     const d = getSaleDate(s);
-    return d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear();
+    return d.getMonth() === month && d.getFullYear() === year;
   });
   const monthTotal = monthSales.reduce((a,b) => a+Number(b.total), 0);
   const monthCash = monthSales.filter(s => s.payMethod !== 'credit' && s.payMethod !== 'savings').reduce((a,b) => a+Number(b.total), 0);
   const monthCredit = monthSales.filter(s => s.payMethod === 'credit').reduce((a,b) => a+Number(b.total), 0);
   const monthSavingsPay = monthSales.filter(s => s.payMethod === 'savings').reduce((a,b) => a+Number(b.total), 0);
 
-  // Last month
-  const lastMonthDate = new Date(today);
-  lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
+  // เดือนก่อนหน้า
+  const prevMonth = month === 0 ? 11 : month - 1;
+  const prevYear = month === 0 ? year - 1 : year;
   const lastMonth = sales.filter(s => {
     const d = getSaleDate(s);
-    return d.getMonth() === lastMonthDate.getMonth() && d.getFullYear() === lastMonthDate.getFullYear();
+    return d.getMonth() === prevMonth && d.getFullYear() === prevYear;
   });
   const lastMonthTotal = lastMonth.reduce((a,b) => a+Number(b.total), 0);
   const monthDiff = lastMonthTotal > 0 ? ((monthTotal - lastMonthTotal) / lastMonthTotal * 100).toFixed(1) : 0;
 
-  // Average per day
-  const daysInMonth = Math.max(1, today.getDate());
   const avgPerDay = monthTotal / daysInMonth;
 
   // Top 10 products
@@ -1653,11 +1704,15 @@ function generateExecReport() {
   });
   const classData = Object.entries(byClass).sort((a,b) => b[1].total - a[1].total);
 
-  // Credit & Savings
+  // Credit & Savings (ณ ปัจจุบัน)
   const totalUnpaidCredit = credits.filter(c => !c.paid).reduce((a,b) => a + Number(b.amount), 0);
   const totalSavings = students.reduce((a, s) => a + getStudentSavings(s.id), 0);
 
   document.getElementById('exec-report-content').innerHTML = `
+  <div style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+    <button class="btn btn-outline" onclick="generateExecReport()" style="font-size:12px;padding:6px 12px">← เปลี่ยนเดือน</button>
+    <span style="font-size:13px;color:var(--text-muted);font-weight:600">📅 รายงานเดือน: ${monthName}</span>
+  </div>
   <div class="exec-report">
     <div class="exec-header">
       <div class="exec-school-logo">🏫</div>
@@ -1670,12 +1725,19 @@ function generateExecReport() {
 
     <div class="exec-date">วันที่จัดทำรายงาน: ${today.toLocaleDateString('th-TH', {day:'2-digit',month:'long',year:'numeric'})}</div>
 
+    ${monthSales.length === 0 ? `
+    <div style="text-align:center;padding:60px 20px;background:#fef3da;border-radius:8px;border-left:4px solid #f39c12">
+      <div style="font-size:48px;margin-bottom:12px">📋</div>
+      <div style="font-size:18px;font-weight:700;color:#f39c12;margin-bottom:6px">ไม่มีข้อมูลการขายในเดือนนี้</div>
+      <div style="font-size:14px;color:#666">เดือน${monthName} ยังไม่มีรายการขาย</div>
+    </div>` : `
+
     <div class="exec-section">
       <div class="exec-section-title">📈 สรุปยอดขายภาพรวม</div>
       <div class="exec-stats">
         <div class="exec-stat">
           <div class="exec-stat-val">${fmt(monthTotal)} ฿</div>
-          <div class="exec-stat-lbl">ยอดขายรวมเดือนนี้</div>
+          <div class="exec-stat-lbl">ยอดขายรวม</div>
         </div>
         <div class="exec-stat">
           <div class="exec-stat-val">${monthSales.length}</div>
@@ -1683,11 +1745,11 @@ function generateExecReport() {
         </div>
         <div class="exec-stat">
           <div class="exec-stat-val">${fmt(Math.round(avgPerDay))} ฿</div>
-          <div class="exec-stat-lbl">เฉลี่ยต่อวัน</div>
+          <div class="exec-stat-lbl">เฉลี่ยต่อวัน (${daysInMonth} วัน)</div>
         </div>
         <div class="exec-stat">
           <div class="exec-stat-val" style="color:${monthDiff>=0?'#00b894':'#e74c3c'}">${monthDiff>=0?'+':''}${monthDiff}%</div>
-          <div class="exec-stat-lbl">เทียบเดือนที่แล้ว (${fmt(lastMonthTotal)} ฿)</div>
+          <div class="exec-stat-lbl">เทียบเดือนก่อน (${fmt(lastMonthTotal)} ฿)</div>
         </div>
       </div>
     </div>
@@ -1738,7 +1800,7 @@ function generateExecReport() {
     </div>` : ''}
 
     <div class="exec-section">
-      <div class="exec-section-title">💳 สถานะการเงิน</div>
+      <div class="exec-section-title">💳 สถานะการเงิน (ณ วันที่จัดทำ)</div>
       <div class="exec-stats">
         <div class="exec-stat" style="background:linear-gradient(135deg, #fde2de 0%, #fec5be 100%);border-left-color:#e74c3c">
           <div class="exec-stat-val" style="color:#e74c3c">${fmt(totalUnpaidCredit)} ฿</div>
@@ -1750,6 +1812,7 @@ function generateExecReport() {
         </div>
       </div>
     </div>
+    `}
 
     <div class="exec-section" style="margin-top:30px;padding:16px;background:#f5f9f8;border-radius:8px;border-left:4px solid #00b894">
       <div style="font-weight:700;margin-bottom:8px;color:#00b894">📝 บันทึก/ข้อเสนอแนะ</div>
@@ -1777,7 +1840,6 @@ function generateExecReport() {
       เอกสารนี้สร้างโดยระบบสหกรณ์โรงเรียนบ้านนิคมสายโท 12 เหนือ · v2.5
     </div>
   </div>`;
-  document.getElementById('exec-report-modal').classList.add('show');
 }
 
 // ===== STUDENTS =====
